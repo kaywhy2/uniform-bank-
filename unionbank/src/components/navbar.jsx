@@ -1,80 +1,16 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
-const NAV_DATA = {
-  Men: [
-    { heading: "New & Featured", links: ["New Arrivals", "Best Sellers", "Latest Drops", "Air Max Collection", "Shop All Sale"] },
-    { heading: "Clothing", links: ["All Clothing", "Hoodies & Sweatshirts", "Jackets & Vests", "Pants", "Shorts", "Swim", "Tops & Graphic Tees"] },
-    { heading: "Accessories", links: ["All Accessories", "Bags & Backpacks", "Hats & Headwear", "Socks"] },
-  ],
-  Women: [
-    { heading: "New & Featured", links: ["New Arrivals", "Best Sellers", "Latest Drops", "Trending Now", "Shop All Sale"] },
-    { heading: "Clothing", links: ["All Clothing", "Dresses & Skirts", "Hoodies & Sweatshirts", "Jackets & Vests", "Leggings", "Shorts", "Tops & T-Shirts"] },
-    { heading: "Accessories", links: ["All Accessories", "Bags & Backpacks", "Hats & Headwear", "Socks", "Jewellery"] },
-  ],
-  Kids: [
-    { heading: "New & Featured", links: ["New Arrivals", "Best Sellers", "Latest Drops", "Shop All Sale"] },
-    { heading: "Clothing", links: ["All Clothing", "Sets & Bundles", "Graphic Tees", "Hoodies", "Joggers & Pants", "Shorts"] },
-    { heading: "Accessories", links: ["All Accessories", "Bags", "Hats", "Socks"] },
-  ],
-};
-
-function MegaMenu({ sections, open, onMouseEnter, onMouseLeave }) {
-  return (
-    <div
-      onMouseEnter={onMouseEnter}
-      onMouseLeave={onMouseLeave}
-      style={{
-        position: "fixed",
-        top: 53,
-        left: 0,
-        width: "100%",
-        opacity: open ? 1 : 0,
-        transform: open ? "translateY(0)" : "translateY(-6px)",
-        pointerEvents: open ? "auto" : "none",
-        transition: "opacity 0.22s ease, transform 0.22s ease",
-        background: "rgba(14,14,14,0.98)",
-        backdropFilter: "blur(20px)",
-        borderTop: "1px solid rgba(255,255,255,0.08)",
-        borderBottom: "1px solid rgba(255,255,255,0.06)",
-        zIndex: 100,
-        padding: "36px 0 40px",
-      }}
-    >
-      <div style={{ maxWidth: 1100, margin: "0 auto", paddingLeft: 32, display: "flex", gap: 64 }}>
-        {sections.map((col, i) => (
-          <div key={i} style={{ display: "flex", flexDirection: "column", gap: 14, minWidth: 160 }}>
-            <span style={{ fontSize: 13, fontWeight: 600, color: "#fff", letterSpacing: "0.03em", marginBottom: 2 }}>
-              {col.heading}
-            </span>
-            {col.links.map((link, j) => (
-              <a  // ← was missing the opening <a tag
-                key={j}
-                href="#"
-                onClick={(e) => e.preventDefault()}
-                onMouseEnter={(e) => (e.currentTarget.style.color = "#fff")}
-                onMouseLeave={(e) => (e.currentTarget.style.color = "rgba(255,255,255,0.55)")}
-                style={{
-                  fontSize: 13,
-                  color: "rgba(255,255,255,0.55)",
-                  textDecoration: "none",
-                  transition: "color 0.15s",
-                  lineHeight: 1,
-                }}
-              >
-                {link}
-              </a>
-            ))}
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-}
+const GOLD = "#C9A84C";
+const GOLD_GLOW = "0 0 10px rgba(201,168,76,0.55), 0 0 22px rgba(201,168,76,0.25)";
+const GOLD_TEXT_SHADOW = "0 0 8px rgba(201,168,76,0.7), 0 0 18px rgba(201,168,76,0.35)";
 
 export default function Navbar() {
   const [active, setActive] = useState(null);
-  const [openMenu, setOpenMenu] = useState(null);
-  const timers = useRef({});
+  const [hoveredItem, setHoveredItem] = useState(null);
+  const [shopHovered, setShopHovered] = useState(false);
+  const [logoHovered, setLogoHovered] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const link = document.createElement("link");
@@ -83,41 +19,40 @@ export default function Navbar() {
     document.head.appendChild(link);
   }, []);
 
-  const navItems = ["Men", "Women", "Kids", "Contact"];
+  const navItems = ["Gallery", "Services", "Why Us", "Contact"];
 
-  const handleEnter = (key) => {
-    clearTimeout(timers.current[key]);
-    if (NAV_DATA[key]) setOpenMenu(key);
-  };
+  const handleNavClick = (key) => {
+    setActive(key);
 
-  const handleLeave = (key) => {
-    if (NAV_DATA[key]) {
-      timers.current[key] = setTimeout(() => {
-        setOpenMenu((prev) => (prev === key ? null : prev));
-      }, 130);
+    if (key === "Gallery") {
+      navigate("/gallery");
+      return;
     }
-  };
 
-  const keepOpen = (key) => clearTimeout(timers.current[key]);
-
-  const scheduleClose = (key) => {
-    timers.current[key] = setTimeout(() => {
-      setOpenMenu((prev) => (prev === key ? null : prev));
-    }, 130);
+    const id = key.toLowerCase().replace(/\s+/g, "-");
+    const el = document.getElementById(id);
+    if (el) el.scrollIntoView({ behavior: "smooth" });
   };
 
   return (
-    <div style={{ background: "#111", minHeight: "100vh" }}>
+    <>
+      <style>{`
+        @keyframes goldPulse {
+          0%   { box-shadow: 0 0 8px rgba(201,168,76,0.5), 0 0 18px rgba(201,168,76,0.2); }
+          50%  { box-shadow: 0 0 14px rgba(201,168,76,0.8), 0 0 32px rgba(201,168,76,0.38); }
+          100% { box-shadow: 0 0 8px rgba(201,168,76,0.5), 0 0 18px rgba(201,168,76,0.2); }
+        }
+      `}</style>
+
       <nav
         style={{
           position: "fixed",
           top: 0,
           width: "100%",
           zIndex: 200,
-          background: "rgba(0,0,0,0.6)",
-          backdropFilter: "blur(20px)",
-          borderBottom: "1px solid rgba(255,255,255,0.07)",
-          height: 54,
+          background: "#fff",
+          borderBottom: "1px solid rgba(0,0,0,0.08)",
+          height: 60,
         }}
       >
         <div
@@ -131,98 +66,105 @@ export default function Navbar() {
             alignItems: "center",
           }}
         >
-          <h1 style={{ fontSize: 18, color: "#fff", fontFamily: "Pacifico, cursive", fontWeight: 400 }}>
+          {/* Logo */}
+          <h1
+            onMouseEnter={() => setLogoHovered(true)}
+            onMouseLeave={() => setLogoHovered(false)}
+            onClick={() => navigate("/")}
+            style={{
+              fontSize: 18,
+              color: logoHovered ? GOLD : "#000",
+              fontFamily: "Pacifico, cursive",
+              fontWeight: 400,
+              letterSpacing: "0.01em",
+              textShadow: logoHovered ? GOLD_TEXT_SHADOW : "none",
+              transition: "color 0.22s, text-shadow 0.22s",
+              cursor: "pointer",
+            }}
+          >
             Uniform Bank
           </h1>
 
-          <div style={{ display: "flex", alignItems: "center", gap: 2 }}>
-            {navItems.map((key) => (
-              <div
-                key={key}
-                onMouseEnter={() => handleEnter(key)}
-                onMouseLeave={() => handleLeave(key)}
-                onClick={() => setActive(key)}
-                style={{ position: "relative" }}
-              >
+          {/* Nav Items */}
+          <div style={{ display: "flex", alignItems: "center", gap: 0 }}>
+            {navItems.map((key) => {
+              const isActive = active === key;
+              const isHovered = hoveredItem === key;
+              const showGold = isActive || isHovered;
+
+              return (
                 <div
-                  style={{
-                    padding: "6px 16px",
-                    cursor: "pointer",
-                    fontSize: 14,
-                    fontWeight: 500,
-                    color: openMenu === key || active === key ? "#fff" : "rgba(255,255,255,0.65)",
-                    transition: "color 0.18s",
-                    userSelect: "none",
-                    display: "flex",
-                    alignItems: "center",
-                    gap: 4,
-                    borderRadius: 6,
-                  }}
+                  key={key}
+                  onMouseEnter={() => setHoveredItem(key)}
+                  onMouseLeave={() => setHoveredItem(null)}
+                  onClick={() => handleNavClick(key)}
+                  style={{ position: "relative" }}
                 >
-                  {key}
-                  {NAV_DATA[key] && (
-                    <span
-                      style={{
-                        fontSize: 9,
-                        opacity: 0.5,
-                        marginTop: 1,
-                        display: "inline-block",
-                        transition: "transform 0.2s",
-                        transform: openMenu === key ? "rotate(180deg)" : "rotate(0deg)",
-                      }}
-                    >
-                      ▾
-                    </span>
-                  )}
+                  <div
+                    style={{
+                      padding: "6px 18px",
+                      cursor: "pointer",
+                      fontSize: 11,
+                      fontWeight: 600,
+                      letterSpacing: "0.1em",
+                      textTransform: "uppercase",
+                      color: showGold ? GOLD : "rgba(0,0,0,0.5)",
+                      textShadow: showGold ? GOLD_TEXT_SHADOW : "none",
+                      transition: "color 0.18s, text-shadow 0.18s",
+                      userSelect: "none",
+                      display: "flex",
+                      alignItems: "center",
+                      whiteSpace: "nowrap",
+                    }}
+                  >
+                    {key}
+                  </div>
+
+                  {/* Underline — turns gold on hover */}
+                  <div
+                    style={{
+                      position: "absolute",
+                      bottom: -1,
+                      left: "50%",
+                      transform: "translateX(-50%)",
+                      height: 1.5,
+                      background: showGold ? GOLD : "#000",
+                      boxShadow: showGold
+                        ? `0 0 6px ${GOLD}, 0 0 14px rgba(201,168,76,0.4)`
+                        : "none",
+                      width: showGold ? "60%" : "0%",
+                      transition: "width 0.2s ease, background 0.2s, box-shadow 0.2s",
+                    }}
+                  />
                 </div>
-                <div
-                  style={{
-                    position: "absolute",
-                    bottom: -1,
-                    left: "50%",
-                    transform: "translateX(-50%)",
-                    height: 2,
-                    borderRadius: 1,
-                    background: "#fff",
-                    width: openMenu === key || active === key ? "60%" : "0%",
-                    transition: "width 0.2s ease",
-                  }}
-                />
-              </div>
-            ))}
+              );
+            })}
           </div>
 
+          {/* Shop Button */}
           <button
-            onMouseEnter={(e) => (e.currentTarget.style.opacity = "0.8")}
-            onMouseLeave={(e) => (e.currentTarget.style.opacity = "1")}
+            onMouseEnter={() => setShopHovered(true)}
+            onMouseLeave={() => setShopHovered(false)}
             style={{
-              background: "#fff",
-              color: "#000",
-              fontSize: 13,
-              fontWeight: 600,
+              background: shopHovered ? GOLD : "transparent",
+              color: shopHovered ? "#fff" : "#000",
+              fontSize: 11,
+              fontWeight: 700,
+              letterSpacing: "0.1em",
+              textTransform: "uppercase",
               padding: "7px 22px",
               borderRadius: 999,
-              border: "none",
+              border: `1.5px solid ${shopHovered ? GOLD : "#000"}`,
               cursor: "pointer",
-              transition: "opacity 0.2s",
+              transition: "background 0.22s, color 0.22s, border-color 0.22s, box-shadow 0.22s",
+              boxShadow: shopHovered ? GOLD_GLOW : "none",
+              animation: shopHovered ? "goldPulse 1.8s ease-in-out infinite" : "none",
             }}
           >
             Shop
           </button>
         </div>
       </nav>
-
-      {navItems
-        .filter((k) => NAV_DATA[k])
-        .map((key) => (
-          <MegaMenu
-            key={key}
-            sections={NAV_DATA[key]}
-            open={openMenu === key}
-            onMouseEnter={() => keepOpen(key)}
-            onMouseLeave={() => scheduleClose(key)}
-          />
-        ))}
-    </div>
+    </>
   );
 }
