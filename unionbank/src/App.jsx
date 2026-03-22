@@ -4,6 +4,7 @@ import BrewNavbar from './components/navbar'
 import Hero from './components/Hero'
 import Gallery from './components/Gallery'
 import Cart from './components/cart'
+import GetInTouch from './components/GetInTouch'
 import { CartProvider } from './components/Cartcontext'
 
 function App() {
@@ -15,6 +16,7 @@ function App() {
           <Route path="/" element={<Hero />} />
           <Route path="/gallery" element={<Gallery />} />
           <Route path="/cart" element={<Cart />} />
+          <Route path="/contact" element={<GetInTouch />} />
         </Routes>
       </BrowserRouter>
     </CartProvider>
