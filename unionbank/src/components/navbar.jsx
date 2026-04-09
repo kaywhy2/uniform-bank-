@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useCart } from "./useCart";
 
 const GOLD = "#C9A84C";
 const GOLD_GLOW = "0 0 8px rgba(201,168,76,0.65), 0 0 20px rgba(201,168,76,0.3)";
@@ -7,7 +8,7 @@ const GOLD_GLOW = "0 0 8px rgba(201,168,76,0.65), 0 0 20px rgba(201,168,76,0.3)"
 const NAV_ITEMS = [
   { label: "Home",         path: "/" },
   { label: "Gallery",      path: "/gallery" },
-  { label: "Services",     id: "services" },
+  { label: "Services",     path: "/services" },
   { label: "Get in Touch", path: "/contact" },
 ];
 
@@ -39,6 +40,8 @@ export default function Navbar() {
   const [active, setActive]   = useState(null);
   const [hovered, setHovered] = useState(null);
   const navigate = useNavigate();
+  const { cartItems } = useCart();
+  const cartCount = cartItems.reduce((sum, item) => sum + item.qty, 0);
 
   useEffect(() => {
     const link = document.createElement("link");
@@ -50,11 +53,7 @@ export default function Navbar() {
 
   const handleClick = (item) => {
     setActive(item.label);
-    if (item.path) { navigate(item.path); return; }
-    if (item.id) {
-      const el = document.getElementById(item.id);
-      if (el) el.scrollIntoView({ behavior: "smooth" });
-    }
+    if (item.path) navigate(item.path);
   };
 
   return (
@@ -147,7 +146,6 @@ export default function Navbar() {
           box-shadow: 0 0 6px ${GOLD}, 0 0 14px rgba(201,168,76,0.35);
         }
 
-        /* Icon nav items — same item base, icon-specific sizing */
         .nb__icons {
           display: flex;
           align-items: center;
@@ -180,6 +178,25 @@ export default function Navbar() {
         .nb__icon-item--hovered .nb__bar {
           width: 60%;
           box-shadow: 0 0 6px ${GOLD}, 0 0 14px rgba(201,168,76,0.35);
+        }
+
+        .nb__badge {
+          position: absolute;
+          top: 2px;
+          right: 2px;
+          background: ${GOLD};
+          color: #fff;
+          font-size: 9px;
+          font-weight: 700;
+          line-height: 1;
+          min-width: 15px;
+          height: 15px;
+          border-radius: 999px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 0 3px;
+          pointer-events: none;
         }
 
         @media (max-width: 860px) {
@@ -263,6 +280,11 @@ export default function Navbar() {
                   onKeyDown={(e) => e.key === "Enter" && navigate(path)}
                 >
                   <Icon />
+                  {label === "Cart" && cartCount > 0 && (
+                    <span className="nb__badge">
+                      {cartCount > 99 ? "99+" : cartCount}
+                    </span>
+                  )}
                   <span className="nb__bar" aria-hidden="true" />
                 </div>
               );
