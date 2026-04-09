@@ -2,161 +2,268 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 const GOLD = "#C9A84C";
-const GOLD_TEXT_SHADOW = "0 0 8px rgba(201,168,76,0.7), 0 0 18px rgba(201,168,76,0.35)";
+const GOLD_GLOW = "0 0 8px rgba(201,168,76,0.65), 0 0 20px rgba(201,168,76,0.3)";
+
+const NAV_ITEMS = [
+  { label: "Home",         path: "/" },
+  { label: "Gallery",      path: "/gallery" },
+  { label: "Services",     id: "services" },
+  { label: "Get in Touch", path: "/contact" },
+];
+
+function UserIcon() {
+  return (
+    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="12" cy="8" r="4" />
+      <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" />
+    </svg>
+  );
+}
+
+function CartIcon() {
+  return (
+    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" />
+      <line x1="3" y1="6" x2="21" y2="6" />
+      <path d="M16 10a4 4 0 0 1-8 0" />
+    </svg>
+  );
+}
+
+const ICON_ITEMS = [
+  { label: "Profile", path: "/profile", Icon: UserIcon },
+  { label: "Cart",    path: "/cart",    Icon: CartIcon },
+];
 
 export default function Navbar() {
-  const [active, setActive] = useState(null);
-  const [hoveredItem, setHoveredItem] = useState(null);
-  const [logoHovered, setLogoHovered] = useState(false);
+  const [active, setActive]   = useState(null);
+  const [hovered, setHovered] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
     const link = document.createElement("link");
+    link.rel  = "stylesheet";
     link.href = "https://fonts.googleapis.com/css2?family=Pacifico&display=swap";
-    link.rel = "stylesheet";
     document.head.appendChild(link);
+    return () => document.head.removeChild(link);
   }, []);
 
-  const navItems = ["Home", "Gallery", "Services", "Get in Touch"];
-
-  const handleNavClick = (key) => {
-    setActive(key);
-    if (key === "Home") { navigate("/"); return; }
-    if (key === "Gallery") { navigate("/gallery"); return; }
-    if (key === "Get in Touch") { navigate("/contact"); return; }
-    const id = key.toLowerCase().replace(/\s+/g, "-");
-    const el = document.getElementById(id);
-    if (el) el.scrollIntoView({ behavior: "smooth" });
+  const handleClick = (item) => {
+    setActive(item.label);
+    if (item.path) { navigate(item.path); return; }
+    if (item.id) {
+      const el = document.getElementById(item.id);
+      if (el) el.scrollIntoView({ behavior: "smooth" });
+    }
   };
 
   return (
     <>
       <style>{`
-        .navbar-wrapper {
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        .nb {
           position: fixed;
-          top: 0;
-          width: 100%;
-          z-index: 200;
-          background: #fff;
-          border-bottom: 1px solid rgba(0,0,0,0.08);
+          inset: 0 0 auto 0;
+          z-index: 300;
+          background: #ffffff;
+          border-bottom: 1px solid rgba(0,0,0,0.09);
         }
 
-        .navbar-inner {
-          max-width: 1100px;
+        .nb__inner {
+          max-width: 1200px;
           margin: 0 auto;
-          padding: 0 20px;
-          height: 60px;
+          padding: 0 32px;
+          height: 58px;
           display: flex;
+          align-items: center;
           justify-content: space-between;
-          align-items: center;
+          gap: 24px;
         }
 
-        .nav-links {
+        .nb__logo {
+          font-family: "Pacifico", cursive;
+          font-weight: 400;
+          font-size: 17px;
+          letter-spacing: 0.01em;
+          color: #111;
+          cursor: pointer;
+          transition: color 0.2s ease, text-shadow 0.2s ease;
+          flex-shrink: 0;
+          user-select: none;
+        }
+        .nb__logo:hover {
+          color: ${GOLD};
+          text-shadow: ${GOLD_GLOW};
+        }
+
+        .nb__links {
           display: flex;
           align-items: center;
+          list-style: none;
+          gap: 2px;
         }
 
-        .nav-item-wrapper {
+        .nb__item {
           position: relative;
           cursor: pointer;
+          padding: 6px 16px;
+          line-height: 1;
         }
 
-        .nav-item-label {
-          padding: 6px 14px;
-          font-size: 11px;
+        .nb__label {
+          font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+          font-size: 10.5px;
           font-weight: 600;
-          letter-spacing: 0.1em;
+          letter-spacing: 0.13em;
           text-transform: uppercase;
-          transition: color 0.18s, text-shadow 0.18s;
+          color: rgba(0,0,0,0.45);
+          transition: color 0.18s ease, text-shadow 0.18s ease;
           user-select: none;
-          display: flex;
-          align-items: center;
           white-space: nowrap;
         }
 
-        .nav-underline {
+        .nb__item--active .nb__label,
+        .nb__item--hovered .nb__label {
+          color: ${GOLD};
+          text-shadow: ${GOLD_GLOW};
+        }
+
+        .nb__bar {
           position: absolute;
           bottom: -1px;
           left: 50%;
-          transform: translateX(-50%);
+          translate: -50% 0;
           height: 1.5px;
-          transition: width 0.2s ease, background 0.2s, box-shadow 0.2s;
+          width: 0;
+          background: ${GOLD};
+          transition: width 0.22s ease, box-shadow 0.22s ease;
+          border-radius: 99px;
+        }
+
+        .nb__item--active .nb__bar,
+        .nb__item--hovered .nb__bar {
+          width: 60%;
+          box-shadow: 0 0 6px ${GOLD}, 0 0 14px rgba(201,168,76,0.35);
+        }
+
+        /* Icon nav items — same item base, icon-specific sizing */
+        .nb__icons {
+          display: flex;
+          align-items: center;
+          gap: 2px;
+          flex-shrink: 0;
+        }
+
+        .nb__icon-item {
+          position: relative;
+          cursor: pointer;
+          padding: 6px 10px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: rgba(0,0,0,0.45);
+          transition: color 0.18s ease, text-shadow 0.18s ease;
+        }
+
+        .nb__icon-item--active,
+        .nb__icon-item--hovered {
+          color: ${GOLD};
+          filter: drop-shadow(0 0 4px rgba(201,168,76,0.6));
+        }
+
+        .nb__icon-item .nb__bar {
+          bottom: -1px;
+        }
+
+        .nb__icon-item--active .nb__bar,
+        .nb__icon-item--hovered .nb__bar {
+          width: 60%;
+          box-shadow: 0 0 6px ${GOLD}, 0 0 14px rgba(201,168,76,0.35);
         }
 
         @media (max-width: 860px) {
-          .nav-item-label { padding: 6px 10px; font-size: 10px; }
+          .nb__item { padding: 6px 11px; }
+          .nb__label { font-size: 9.5px; }
         }
 
         @media (max-width: 600px) {
-          .navbar-wrapper { height: auto; }
-          .navbar-inner {
+          .nb__inner {
             height: auto;
             flex-direction: column;
-            align-items: center;
             padding: 10px 16px 8px;
+            gap: 8px;
           }
-          .nav-links {
-            flex-wrap: wrap;
-            justify-content: center;
-            padding: 6px 0 2px;
-          }
-          .nav-item-label { font-size: 9px; padding: 5px 8px; }
+          .nb__links { flex-wrap: wrap; justify-content: center; }
+          .nb__label { font-size: 9px; }
+          .nb__icon-item { padding: 6px 8px; }
         }
       `}</style>
 
-      <nav className="navbar-wrapper">
-        <div className="navbar-inner">
+      <nav className="nb" role="navigation" aria-label="Main navigation">
+        <div className="nb__inner">
 
           {/* Logo */}
-          <h1
-            onMouseEnter={() => setLogoHovered(true)}
-            onMouseLeave={() => setLogoHovered(false)}
-            onClick={() => navigate("/")}
-            style={{
-              fontSize: 18,
-              color: logoHovered ? GOLD : "#000",
-              fontFamily: "Pacifico, cursive",
-              fontWeight: 400,
-              letterSpacing: "0.01em",
-              margin: 0,
-              textShadow: logoHovered ? GOLD_TEXT_SHADOW : "none",
-              transition: "color 0.22s, text-shadow 0.22s",
-              cursor: "pointer",
-              flexShrink: 0,
-            }}
+          <span
+            className="nb__logo"
+            onClick={() => { setActive(null); navigate("/"); }}
+            aria-label="Uniform Bank — go home"
           >
             Uniform Bank
-          </h1>
+          </span>
 
-          {/* Nav Links */}
-          <div className="nav-links">
-            {navItems.map((key) => {
-              const showGold = active === key || hoveredItem === key;
+          {/* Nav links */}
+          <ul className="nb__links">
+            {NAV_ITEMS.map((item) => {
+              const isActive  = active  === item.label;
+              const isHovered = hovered === item.label;
+              const cls = [
+                "nb__item",
+                isActive  ? "nb__item--active"  : "",
+                isHovered ? "nb__item--hovered" : "",
+              ].filter(Boolean).join(" ");
+
+              return (
+                <li
+                  key={item.label}
+                  className={cls}
+                  onClick={() => handleClick(item)}
+                  onMouseEnter={() => setHovered(item.label)}
+                  onMouseLeave={() => setHovered(null)}
+                  aria-current={isActive ? "page" : undefined}
+                >
+                  <span className="nb__label">{item.label}</span>
+                  <span className="nb__bar" aria-hidden="true" />
+                </li>
+              );
+            })}
+          </ul>
+
+          {/* Icon nav items — Profile + Cart */}
+          <div className="nb__icons" aria-label="Account and cart">
+            {ICON_ITEMS.map(({ label, path, Icon }) => {
+              const isActive  = active  === label;
+              const isHovered = hovered === label;
+              const cls = [
+                "nb__icon-item",
+                isActive  ? "nb__icon-item--active"  : "",
+                isHovered ? "nb__icon-item--hovered" : "",
+              ].filter(Boolean).join(" ");
+
               return (
                 <div
-                  key={key}
-                  className="nav-item-wrapper"
-                  onMouseEnter={() => setHoveredItem(key)}
-                  onMouseLeave={() => setHoveredItem(null)}
-                  onClick={() => handleNavClick(key)}
+                  key={label}
+                  className={cls}
+                  onClick={() => { setActive(label); navigate(path); }}
+                  onMouseEnter={() => setHovered(label)}
+                  onMouseLeave={() => setHovered(null)}
+                  role="button"
+                  tabIndex={0}
+                  aria-label={label}
+                  onKeyDown={(e) => e.key === "Enter" && navigate(path)}
                 >
-                  <div
-                    className="nav-item-label"
-                    style={{
-                      color: showGold ? GOLD : "rgba(0,0,0,0.5)",
-                      textShadow: showGold ? GOLD_TEXT_SHADOW : "none",
-                    }}
-                  >
-                    {key}
-                  </div>
-                  <div
-                    className="nav-underline"
-                    style={{
-                      background: showGold ? GOLD : "#000",
-                      boxShadow: showGold ? `0 0 6px ${GOLD}, 0 0 14px rgba(201,168,76,0.4)` : "none",
-                      width: showGold ? "60%" : "0%",
-                    }}
-                  />
+                  <Icon />
+                  <span className="nb__bar" aria-hidden="true" />
                 </div>
               );
             })}

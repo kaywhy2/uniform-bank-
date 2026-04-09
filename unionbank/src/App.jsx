@@ -5,6 +5,7 @@ import Hero from './components/Hero'
 import Gallery from './components/Gallery'
 import Cart from './components/cart'
 import GetInTouch from './components/GetInTouch'
+import Profile from './components/profile'
 import { CartProvider } from './components/Cartcontext'
 
 function App() {
@@ -17,6 +18,7 @@ function App() {
           <Route path="/gallery" element={<Gallery />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/contact" element={<GetInTouch />} />
+          <Route path="/profile" element={<Profile />} />
         </Routes>
       </BrowserRouter>
     </CartProvider>
