@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useCart } from "./useCart";
+import { useCart } from "./Cartcontext";
 
 const GOLD = "#C9A84C";
 const GOLD_GLOW = "0 0 8px rgba(201,168,76,0.65), 0 0 20px rgba(201,168,76,0.3)";

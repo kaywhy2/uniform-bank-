@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { useCart } from "./useCart";
+import { useCart } from "./Cartcontext";
 import { useState } from "react";
 import { usePaystackPayment } from "react-paystack";
 

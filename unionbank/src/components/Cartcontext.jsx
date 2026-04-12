@@ -8,22 +8,24 @@ export function CartProvider({ children }) {
   const addToCart = (product) => {
     setCartItems((prev) => {
       const existing = prev.find((i) => i.id === product.id);
+      const addQty = product.qty || 1;
       if (existing) {
         return prev.map((i) =>
           i.id === product.id
-            ? { ...i, qty: i.qty + 1, price: i.unitPrice * (i.qty + 1) }
+            ? { ...i, qty: i.qty + addQty, price: i.unitPrice * (i.qty + addQty) }
             : i
         );
       }
+      const unitPrice = product.unitPrice ?? product.price ?? 45000;
       return [
         ...prev,
         {
           id: product.id,
           name: product.name,
-          category: product.category.toUpperCase(),
-          unitPrice: product.unitPrice ?? 45000,
-          price: product.unitPrice ?? 45000,
-          qty: 1,
+          category: product.category ? String(product.category).toUpperCase() : "UNCLASSIFIED",
+          unitPrice,
+          price: unitPrice * addQty,
+          qty: addQty,
           selected: true,
           image: product.image ?? null,
         },
