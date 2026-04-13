@@ -16,9 +16,9 @@ function App() {
   return (
     <CartProvider>
       <BrowserRouter>
-        <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', width: '100%', overflowX: 'hidden' }}>
           <Navbar />
-          <div style={{ flex: 1 }}>
+          <div style={{ flex: 1, width: '100%' }}>
             <Routes>
               <Route path="/"              element={<Hero />} />
               <Route path="/gallery"       element={<Gallery />} />

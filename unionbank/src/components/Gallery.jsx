@@ -101,7 +101,7 @@ export default function Gallery() {
   };
 
   return (
-    <div style={{ minHeight: "100vh", background: "#fff", paddingTop: 60 }}>
+    <div style={{ minHeight: "100vh", background: "var(--bg-card)", paddingTop: 60 }}>
       <style>{`
         .filter-scroll::-webkit-scrollbar { display: none; }
 
@@ -119,7 +119,7 @@ export default function Gallery() {
           border-radius: 10px;
           overflow: hidden;
           aspect-ratio: 1 / 1.08;
-          background: #ddd;
+          background: var(--border-strong);
           cursor: default;
         }
 
@@ -154,7 +154,7 @@ export default function Gallery() {
           padding: 3px 8px;
           border-radius: 999px;
           background: ${GOLD};
-          color: #fff;
+          color: var(--bg-card);
           pointer-events: none;
         }
 
@@ -182,14 +182,14 @@ export default function Gallery() {
       <div
         className="filter-scroll"
         style={{
-          borderBottom: "1px solid rgba(0,0,0,0.08)",
+          borderBottom: "1px solid var(--border-light)",
           padding: "0 12px",
           display: "flex",
           alignItems: "center",
           gap: 2,
           overflowX: "auto",
           scrollbarWidth: "none",
-          background: "#fff",
+          background: "var(--bg-card)",
           position: "sticky",
           top: 60,
           zIndex: 100,
@@ -208,7 +208,7 @@ export default function Gallery() {
                 fontWeight: 600,
                 letterSpacing: "0.04em",
                 background: isActive ? GOLD : "transparent",
-                color: isActive ? "#fff" : "rgba(0,0,0,0.5)",
+                color: isActive ? "var(--bg-card)" : "var(--text-muted)",
                 border: "none",
                 borderRadius: 999,
                 cursor: "pointer",
@@ -232,8 +232,8 @@ export default function Gallery() {
             fontSize: 11,
             fontWeight: 700,
             background: cartCount > 0 ? GOLD : "transparent",
-            color: cartCount > 0 ? "#fff" : "rgba(0,0,0,0.4)",
-            border: cartCount > 0 ? "none" : "1px solid rgba(0,0,0,0.12)",
+            color: cartCount > 0 ? "var(--bg-card)" : "var(--text-muted)",
+            border: cartCount > 0 ? "none" : "1px solid var(--border-strong)",
             borderRadius: 999,
             cursor: "pointer",
             transition: "all 0.18s",
@@ -263,13 +263,13 @@ export default function Gallery() {
           let btnBg, btnColor, btnLabel, BtnIcon;
 
           if (inCart && isHovered) {
-            btnBg = RED; btnColor = "#fff"; btnLabel = "Remove"; BtnIcon = RemoveIcon;
+            btnBg = RED; btnColor = "var(--bg-card)"; btnLabel = "Remove"; BtnIcon = RemoveIcon;
           } else if (inCart) {
-            btnBg = GREEN; btnColor = "#fff"; btnLabel = "Added"; BtnIcon = CheckIcon;
+            btnBg = GREEN; btnColor = "var(--bg-card)"; btnLabel = "Added"; BtnIcon = CheckIcon;
           } else if (isHovered) {
-            btnBg = GOLD; btnColor = "#fff"; btnLabel = "Add to Cart"; BtnIcon = CartIcon;
+            btnBg = GOLD; btnColor = "var(--bg-card)"; btnLabel = "Add to Cart"; BtnIcon = CartIcon;
           } else {
-            btnBg = "rgba(0,0,0,0.45)"; btnColor = "#fff"; btnLabel = "Add to Cart"; BtnIcon = CartIcon;
+            btnBg = "var(--text-muted)"; btnColor = "var(--bg-card)"; btnLabel = "Add to Cart"; BtnIcon = CartIcon;
           }
 
           return (
@@ -286,7 +286,7 @@ export default function Gallery() {
                     style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
                   />
                 ) : (
-                  <div style={{ width: "100%", height: "100%", background: "#ccc" }} />
+                  <div style={{ width: "100%", height: "100%", background: "var(--border-strong)" }} />
                 )}
 
                 {/* "In Cart" top-left badge */}
@@ -313,12 +313,12 @@ export default function Gallery() {
               {/* Product info */}
               <div style={{ marginTop: 8, paddingLeft: 2 }}>
                 <p style={{
-                  fontSize: 12, fontWeight: 700, color: "#111", margin: 0,
+                  fontSize: 12, fontWeight: 700, color: "var(--text-main)", margin: 0,
                   whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis",
                 }}>
                   {product.name}
                 </p>
-                <p style={{ fontSize: 10, color: "rgba(0,0,0,0.4)", margin: "3px 0 0" }}>
+                <p style={{ fontSize: 10, color: "var(--text-muted)", margin: "3px 0 0" }}>
                   {product.subtitle}
                 </p>
                 <p style={{ fontSize: 11, color: GOLD, fontWeight: 700, margin: "4px 0 0" }}>

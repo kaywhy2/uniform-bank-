@@ -96,14 +96,14 @@ export default function Hero() {
         <img src={heroBg} alt="Uniform Bank Hero" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "center", opacity: 0.85 }} />
         <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0.15) 50%, rgba(0,0,0,0) 100%)", zIndex: 1 }} />
         <div className="hero-content" style={{ position: "relative", zIndex: 2, display: "flex", flexDirection: "column", gap: 20 }}>
-          <h1 style={{ fontSize: "clamp(32px, 5vw, 64px)", fontWeight: 400, color: "#fff", fontFamily: "Pacifico, cursive", margin: 0, lineHeight: 1.1, letterSpacing: "-0.01em" }}>
+          <h1 style={{ fontSize: "clamp(32px, 5vw, 64px)", fontWeight: 400, color: "var(--bg-card)", fontFamily: "Pacifico, cursive", margin: 0, lineHeight: 1.1, letterSpacing: "-0.01em" }}>
             Uniform Bank
           </h1>
           <button
             onClick={() => navigate("/gallery")}
-            onMouseEnter={(e) => { e.currentTarget.style.background = "#fff"; e.currentTarget.style.color = "#000"; }}
-            onMouseLeave={(e) => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.color = "#fff"; }}
-            style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "transparent", color: "#fff", fontSize: 11, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", padding: "10px 24px", border: "1.5px solid rgba(255,255,255,0.7)", borderRadius: 999, cursor: "pointer", transition: "background 0.2s, color 0.2s", width: "fit-content" }}
+            onMouseEnter={(e) => { e.currentTarget.style.background = "var(--bg-card)"; e.currentTarget.style.color = "var(--text-main)"; }}
+            onMouseLeave={(e) => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.color = "var(--bg-card)"; }}
+            style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "transparent", color: "var(--bg-card)", fontSize: 11, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", padding: "10px 24px", border: "1.5px solid rgba(255,255,255,0.7)", borderRadius: 999, cursor: "pointer", transition: "background 0.2s, color 0.2s", width: "fit-content" }}
           >
             <span>→</span> Explore Our Gallery
           </button>
@@ -112,7 +112,7 @@ export default function Hero() {
 
       {/* ── Crafted Silence Banner ── */}
       <section style={{ width: "100%", background: "#7a6420", marginTop: -1, padding: "clamp(40px, 6vw, 60px) clamp(16px, 5vw, 60px)", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", textAlign: "center", gap: 16, boxSizing: "border-box" }}>
-        <h2 style={{ margin: 0, fontSize: "clamp(18px, 3vw, 32px)", fontWeight: 600, color: "#fff", fontFamily: "Georgia, serif", letterSpacing: "0.02em" }}>
+        <h2 style={{ margin: 0, fontSize: "clamp(18px, 3vw, 32px)", fontWeight: 600, color: "var(--bg-card)", fontFamily: "Georgia, serif", letterSpacing: "0.02em" }}>
           Crafted Silence — Fabrics that Speak in Shadow
         </h2>
         <p style={{ margin: 0, fontSize: "clamp(13px, 1.5vw, 15px)", color: "rgba(255,255,255,0.82)", fontFamily: "Georgia, serif", maxWidth: 600, lineHeight: 1.7, fontStyle: "italic" }}>
@@ -121,13 +121,13 @@ export default function Hero() {
       </section>
 
       {/* ── Services Section ── */}
-      <section id="services" className="section-pad" style={{ width: "100%", background: "#fff", boxSizing: "border-box" }}>
-        <p style={{ margin: "0 0 24px 0", fontSize: 13, fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", color: "#111" }}>Services</p>
+      <section id="services" className="section-pad" style={{ width: "100%", background: "var(--bg-card)", boxSizing: "border-box" }}>
+        <p style={{ margin: "0 0 24px 0", fontSize: 13, fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", color: "var(--text-main)" }}>Services</p>
         <div className="services-grid">
           {services.map((s) => (
-            <div key={s.title} style={{ background: "#111", borderRadius: 4, padding: "28px 24px", display: "flex", flexDirection: "column", gap: 14 }}>
-              <span style={{ color: "#fff", fontSize: 18, opacity: 0.6 }}>{s.icon}</span>
-              <h3 style={{ margin: 0, fontSize: 15, fontWeight: 600, color: "#fff", fontFamily: "Georgia, serif" }}>{s.title}</h3>
+            <div key={s.title} style={{ background: "var(--text-main)", borderRadius: 4, padding: "28px 24px", display: "flex", flexDirection: "column", gap: 14 }}>
+              <span style={{ color: "var(--bg-card)", fontSize: 18, opacity: 0.6 }}>{s.icon}</span>
+              <h3 style={{ margin: 0, fontSize: 15, fontWeight: 600, color: "var(--bg-card)", fontFamily: "Georgia, serif" }}>{s.title}</h3>
               <p style={{ margin: 0, fontSize: 13, color: "rgba(255,255,255,0.65)", lineHeight: 1.7, fontFamily: "Georgia, serif" }}>{s.desc}</p>
             </div>
           ))}
@@ -135,13 +135,13 @@ export default function Hero() {
       </section>
 
       {/* ── Why Us Section ── */}
-      <section id="why-us" className="section-pad-bottom" style={{ width: "100%", background: "#fff", boxSizing: "border-box" }}>
-        <p style={{ margin: "0 0 24px 0", fontSize: 13, fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", color: "#111" }}>Why Us</p>
+      <section id="why-us" className="section-pad-bottom" style={{ width: "100%", background: "var(--bg-card)", boxSizing: "border-box" }}>
+        <p style={{ margin: "0 0 24px 0", fontSize: 13, fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", color: "var(--text-main)" }}>Why Us</p>
         <div className="whyus-grid">
           {whyUs.map((w) => (
             <div key={w.title} style={{ border: "1px solid #e5e5e5", borderRadius: 4, padding: "24px 20px", display: "flex", flexDirection: "column", gap: 10, background: "#fafafa" }}>
-              <h4 style={{ margin: 0, fontSize: 14, fontWeight: 600, color: "#111", fontFamily: "Georgia, serif" }}>{w.title}</h4>
-              <p style={{ margin: 0, fontSize: 13, color: "#666", lineHeight: 1.7, fontFamily: "Georgia, serif" }}>{w.desc}</p>
+              <h4 style={{ margin: 0, fontSize: 14, fontWeight: 600, color: "var(--text-main)", fontFamily: "Georgia, serif" }}>{w.title}</h4>
+              <p style={{ margin: 0, fontSize: 13, color: "var(--text-muted)", lineHeight: 1.7, fontFamily: "Georgia, serif" }}>{w.desc}</p>
             </div>
           ))}
         </div>
@@ -149,7 +149,7 @@ export default function Hero() {
 
       {/* ── Inquire Section ── */}
       <section id="contact" style={{ width: "100%", background: "#7a6420", padding: "clamp(40px, 6vw, 64px) clamp(16px, 5vw, 40px)", boxSizing: "border-box", display: "flex", flexDirection: "column", alignItems: "center", gap: 12, textAlign: "center" }}>
-        <h2 style={{ margin: 0, fontSize: "clamp(18px, 2.5vw, 28px)", fontWeight: 600, color: "#fff", fontFamily: "Georgia, serif" }}>
+        <h2 style={{ margin: 0, fontSize: "clamp(18px, 2.5vw, 28px)", fontWeight: 600, color: "var(--bg-card)", fontFamily: "Georgia, serif" }}>
           Inquire About a Commission
         </h2>
         <p style={{ margin: "0 0 16px", fontSize: 14, color: "rgba(255,255,255,0.8)", fontFamily: "Georgia, serif", fontStyle: "italic" }}>
@@ -163,7 +163,7 @@ export default function Hero() {
               placeholder="Full name"
               value={fields.from_name}
               onChange={handleChange}
-              style={{ padding: "14px 18px", fontSize: 13, fontFamily: "Georgia, serif", border: "1px solid rgba(255,255,255,0.3)", borderRadius: 3, background: "rgba(255,255,255,0.95)", color: "#111", outline: "none" }}
+              style={{ padding: "14px 18px", fontSize: 13, fontFamily: "Georgia, serif", border: "1px solid rgba(255,255,255,0.3)", borderRadius: 3, background: "rgba(255,255,255,0.95)", color: "var(--text-main)", outline: "none" }}
             />
             <input
               type="email"
@@ -171,7 +171,7 @@ export default function Hero() {
               placeholder="Email address"
               value={fields.reply_to}
               onChange={handleChange}
-              style={{ padding: "14px 18px", fontSize: 13, fontFamily: "Georgia, serif", border: "1px solid rgba(255,255,255,0.3)", borderRadius: 3, background: "rgba(255,255,255,0.95)", color: "#111", outline: "none" }}
+              style={{ padding: "14px 18px", fontSize: 13, fontFamily: "Georgia, serif", border: "1px solid rgba(255,255,255,0.3)", borderRadius: 3, background: "rgba(255,255,255,0.95)", color: "var(--text-main)", outline: "none" }}
             />
           </div>
 
@@ -196,8 +196,8 @@ export default function Hero() {
           onClick={handleSubmit}
           disabled={status === "sending"}
           onMouseEnter={(e) => { if (status !== "sending") e.currentTarget.style.background = "#5a4a10"; }}
-          onMouseLeave={(e) => { if (status !== "sending") e.currentTarget.style.background = "#111"; }}
-          style={{ marginTop: 8, padding: "13px 36px", background: "#111", color: "#fff", fontSize: 13, fontWeight: 700, fontFamily: "Georgia, serif", letterSpacing: "0.06em", border: "none", borderRadius: 3, cursor: status === "sending" ? "not-allowed" : "pointer", opacity: status === "sending" ? 0.6 : 1, transition: "background 0.2s", width: "clamp(160px, 40%, 240px)" }}
+          onMouseLeave={(e) => { if (status !== "sending") e.currentTarget.style.background = "var(--text-main)"; }}
+          style={{ marginTop: 8, padding: "13px 36px", background: "var(--text-main)", color: "var(--bg-card)", fontSize: 13, fontWeight: 700, fontFamily: "Georgia, serif", letterSpacing: "0.06em", border: "none", borderRadius: 3, cursor: status === "sending" ? "not-allowed" : "pointer", opacity: status === "sending" ? 0.6 : 1, transition: "background 0.2s", width: "clamp(160px, 40%, 240px)" }}
         >
           {status === "sending" ? "Sending…" : "Get In Touch"}
         </button>

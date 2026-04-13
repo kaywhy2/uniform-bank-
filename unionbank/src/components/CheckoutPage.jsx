@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { usePaystackPayment } from "react-paystack";
 import { useCart } from "./Cartcontext";
 
-// ─── Replace with your real Paystack public key ───────────────────────────────
+// Replace with your real Paystack public key
 const PAYSTACK_PUBLIC_KEY = "pk_test_REPLACE_WITH_YOUR_PUBLIC_KEY";
 
 const GOLD = "#C9A84C";
@@ -13,7 +13,7 @@ function formatNaira(n) {
   return "₦" + Number(n).toLocaleString();
 }
 
-// ── Lock icon ─────────────────────────────────────────────────────────────────
+// Lock icon
 function LockIcon() {
   return (
     <svg width="14" height="14" viewBox="0 0 24 24" fill="none"
@@ -43,17 +43,24 @@ function CheckCircle() {
   );
 }
 
-// ── Payment button — own component for stable hook ────────────────────────────
-function PayButton({ config, disabled, label = "Pay Now" }) {
+function PayButton({ config, disabled, label = "Pay Now", onValidate }) {
   const initializePayment = usePaystackPayment(config);
+
+  const handleClick = () => {
+    if (disabled) return;
+    if (onValidate && !onValidate()) return;
+    
+    initializePayment({
+      onSuccess: config._onSuccess,
+      onClose: config._onClose,
+    });
+  };
+
   return (
     <button
       className="pay-now-btn"
       disabled={disabled}
-      onClick={() => !disabled && initializePayment({
-        onSuccess: config._onSuccess,
-        onClose: config._onClose,
-      })}
+      onClick={handleClick}
     >
       <LockIcon />
       <span>{label}</span>
@@ -61,7 +68,7 @@ function PayButton({ config, disabled, label = "Pay Now" }) {
   );
 }
 
-// ── Field component ───────────────────────────────────────────────────────────
+// Field component
 function Field({ label, error, children }) {
   return (
     <div className="field-wrap">
@@ -72,7 +79,7 @@ function Field({ label, error, children }) {
   );
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
+//
 export default function CheckoutPage() {
   const navigate = useNavigate();
   const { cartItems, setCartItems } = useCart();
@@ -87,7 +94,7 @@ export default function CheckoutPage() {
   const deliveryCost = fulfillment === "home" ? 5000 : 0;
   const total = subtotal + deliveryCost;
 
-  // ── Form state ──────────────────────────────────────────────────────────────
+  // Form state
   const [form, setForm] = useState({
     firstName: "", lastName: "", email: "", phone: "",
     address: "", city: "", state: "",
@@ -116,7 +123,7 @@ export default function CheckoutPage() {
     reference: `UB_${Date.now()}`,
     email: form.email,
     amount: total * 100,
-    publicKey: PAYSTACK_PUBLIC_KEY,
+    publicKey: "pk_test_6aa698310050f904eadaa71120040b80f75db13c",
     currency: "NGN",
     metadata: {
       custom_fields: [
@@ -141,7 +148,7 @@ export default function CheckoutPage() {
     // PayButton handles opening Paystack — this just triggers validation UI
   };
 
-  // ── Success screen ──────────────────────────────────────────────────────────
+  // Success screen
   if (step === "success") {
     return (
       <div className="checkout-root">
@@ -159,8 +166,8 @@ export default function CheckoutPage() {
               Thank you, {form.firstName}. Your payment was received and your order is being processed.
             </p>
             <div className="success-ref">
-              <span style={{ fontSize: 11, color: "rgba(0,0,0,0.4)", textTransform: "uppercase", letterSpacing: "0.1em" }}>Reference</span>
-              <span style={{ fontSize: 13, fontWeight: 700, color: "#111", fontFamily: "monospace" }}>{window._lastRef}</span>
+              <span style={{ fontSize: 11, color: "var(--text-muted)", textTransform: "uppercase", letterSpacing: "0.1em" }}>Reference</span>
+              <span style={{ fontSize: 13, fontWeight: 700, color: "var(--text-main)", fontFamily: "monospace" }}>{window._lastRef}</span>
             </div>
             <div className="success-detail-row">
               <span>Total Paid</span><strong>{formatNaira(total)}</strong>
@@ -184,14 +191,14 @@ export default function CheckoutPage() {
     );
   }
 
-  // ── Empty cart guard ────────────────────────────────────────────────────────
+  // Empty cart guard
   if (selectedItems.length === 0) {
     return (
       <div className="checkout-root">
         <style>{css}</style>
         <div className="success-wrap">
           <div className="success-card" style={{ textAlign: "center" }}>
-            <p style={{ fontSize: 14, color: "rgba(0,0,0,0.4)", marginBottom: 20 }}>
+            <p style={{ fontSize: 14, color: "var(--text-muted)", marginBottom: 20 }}>
               No items selected for checkout.
             </p>
             <button className="back-to-shop" onClick={() => navigate("/cart")}>Back to Cart</button>
@@ -307,6 +314,7 @@ export default function CheckoutPage() {
               config={paystackConfig}
               disabled={false}
               label={`Pay ${formatNaira(total)} Securely`}
+              onValidate={validate}
             />
             <p className="pay-note">
               By completing your purchase you agree to our{" "}
@@ -351,7 +359,7 @@ export default function CheckoutPage() {
             </div>
             <div className="summary-line">
               <span>Fulfilment</span>
-              <span style={{ color: deliveryCost === 0 ? "#2ecc71" : "#111" }}>
+              <span style={{ color: deliveryCost === 0 ? "#2ecc71" : "var(--text-main)" }}>
                 {deliveryCost === 0 ? "Free" : formatNaira(deliveryCost)}
               </span>
             </div>
@@ -381,9 +389,9 @@ export default function CheckoutPage() {
   );
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
+//
 // CSS
-// ─────────────────────────────────────────────────────────────────────────────
+//
 const GOLD_HEX = "#C9A84C";
 
 const css = `
@@ -393,15 +401,15 @@ const css = `
 
   .checkout-root {
     min-height: 100vh;
-    background: #f5f4f0;
+    background: var(--bg-main);
     font-family: 'DM Sans', sans-serif;
   }
 
   /* ── Header ── */
   .checkout-header {
     position: sticky; top: 0; z-index: 50;
-    background: #fff;
-    border-bottom: 1px solid rgba(0,0,0,0.08);
+    background: var(--bg-card);
+    border-bottom: 1px solid var(--border-light);
     padding: 0 32px;
     height: 64px;
     display: flex;
@@ -411,19 +419,19 @@ const css = `
   .back-btn {
     display: flex; align-items: center; gap: 6px;
     background: none; border: none; cursor: pointer;
-    font-size: 13px; color: rgba(0,0,0,0.5);
+    font-size: 13px; color: var(--text-muted);
     font-family: 'DM Sans', sans-serif;
     transition: color 0.18s;
   }
   .back-btn:hover { color: ${GOLD_HEX}; }
   .logo-text {
     font-family: 'Cormorant Garamond', serif;
-    font-size: 22px; font-weight: 700; color: #111;
+    font-size: 22px; font-weight: 700; color: var(--text-main);
     letter-spacing: 0.02em;
   }
   .secure-badge {
     display: flex; align-items: center; gap: 5px;
-    font-size: 11px; color: rgba(0,0,0,0.4);
+    font-size: 11px; color: var(--text-muted);
     font-weight: 500;
   }
 
@@ -454,23 +462,23 @@ const css = `
     width: 28px; height: 28px; border-radius: 50%;
     display: flex; align-items: center; justify-content: center;
     font-size: 12px; font-weight: 700; flex-shrink: 0;
-    background: rgba(0,0,0,0.07); color: rgba(0,0,0,0.35);
+    background: var(--border-light); color: rgba(0,0,0,0.35);
   }
   .step-dot.done { background: transparent; }
   .step-dot.active {
-    background: #111; color: #fff;
+    background: var(--text-main); color: var(--bg-card);
   }
   .step-label {
-    font-size: 12px; color: rgba(0,0,0,0.4); font-weight: 500; white-space: nowrap;
+    font-size: 12px; color: var(--text-muted); font-weight: 500; white-space: nowrap;
   }
-  .step-active-label { color: #111; font-weight: 700; }
+  .step-active-label { color: var(--text-main); font-weight: 700; }
   .step-line {
-    width: 32px; height: 1px; background: rgba(0,0,0,0.12); margin: 0 6px;
+    width: 32px; height: 1px; background: var(--border-strong); margin: 0 6px;
   }
 
   /* Form section card */
   .form-section {
-    background: #fff;
+    background: var(--bg-card);
     border-radius: 16px;
     padding: 26px 24px;
     display: flex; flex-direction: column; gap: 14px;
@@ -478,7 +486,7 @@ const css = `
   }
   .section-title {
     font-family: 'Cormorant Garamond', serif;
-    font-size: 18px; font-weight: 700; color: #111;
+    font-size: 18px; font-weight: 700; color: var(--text-main);
     margin-bottom: 2px;
   }
   .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
@@ -487,14 +495,14 @@ const css = `
   .field-wrap { display: flex; flex-direction: column; gap: 5px; }
   .field-label {
     font-size: 10px; font-weight: 700; letter-spacing: 0.1em;
-    text-transform: uppercase; color: rgba(0,0,0,0.45);
+    text-transform: uppercase; color: var(--text-muted);
   }
   .f-input {
     padding: 11px 14px;
     border: 1.5px solid rgba(0,0,0,0.12);
     border-radius: 10px;
-    font-size: 13px; color: #111;
-    background: #fff;
+    font-size: 13px; color: var(--text-main);
+    background: var(--bg-card);
     font-family: 'DM Sans', sans-serif;
     transition: border-color 0.18s, box-shadow 0.18s;
     width: 100%;
@@ -527,7 +535,7 @@ const css = `
   .pay-now-btn {
     width: 100%;
     display: flex; align-items: center; justify-content: center; gap: 10px;
-    background: #111; color: #fff;
+    background: var(--text-main); color: var(--bg-card);
     border: none; border-radius: 12px;
     padding: 17px 24px;
     font-size: 14px; font-weight: 700;
@@ -550,7 +558,7 @@ const css = `
 
   /* ── Summary col ── */
   .summary-card {
-    background: #fff;
+    background: var(--bg-card);
     border-radius: 20px;
     padding: 28px 24px;
     box-shadow: 0 1px 4px rgba(0,0,0,0.05);
@@ -558,28 +566,28 @@ const css = `
   }
   .summary-heading {
     font-family: 'Cormorant Garamond', serif;
-    font-size: 20px; font-weight: 700; color: #111;
+    font-size: 20px; font-weight: 700; color: var(--text-main);
     margin-bottom: 2px;
   }
-  .summary-count { font-size: 11px; color: rgba(0,0,0,0.4); margin-bottom: 20px; }
+  .summary-count { font-size: 11px; color: var(--text-muted); margin-bottom: 20px; }
 
   .summary-items { display: flex; flex-direction: column; gap: 14px; }
   .summary-item { display: flex; align-items: center; gap: 12px; }
   .summary-item-img {
     width: 56px; height: 56px; border-radius: 10px;
-    background: #f0ece2; flex-shrink: 0; overflow: hidden;
+    background: var(--bg-alt); flex-shrink: 0; overflow: hidden;
     position: relative;
   }
   .summary-item-qty {
     position: absolute; top: -6px; right: -6px;
     width: 18px; height: 18px; border-radius: 50%;
-    background: #111; color: #fff;
+    background: var(--text-main); color: var(--bg-card);
     font-size: 10px; font-weight: 700;
     display: flex; align-items: center; justify-content: center;
   }
   .summary-item-info { flex: 1; min-width: 0; }
   .summary-item-name {
-    font-size: 12px; font-weight: 700; color: #111;
+    font-size: 12px; font-weight: 700; color: var(--text-main);
     white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
     margin-bottom: 2px;
   }
@@ -587,17 +595,17 @@ const css = `
     font-size: 10px; font-weight: 600; letter-spacing: 0.08em;
     text-transform: uppercase; color: rgba(0,0,0,0.35);
   }
-  .summary-item-price { font-size: 13px; font-weight: 700; color: #111; flex-shrink: 0; }
+  .summary-item-price { font-size: 13px; font-weight: 700; color: var(--text-main); flex-shrink: 0; }
 
-  .summary-divider { height: 1px; background: rgba(0,0,0,0.07); margin: 16px 0; }
+  .summary-divider { height: 1px; background: var(--border-light); margin: 16px 0; }
   .summary-line {
     display: flex; justify-content: space-between;
-    font-size: 12px; color: rgba(0,0,0,0.5); margin-bottom: 8px;
+    font-size: 12px; color: var(--text-muted); margin-bottom: 8px;
   }
-  .summary-line span:last-child { font-weight: 600; color: #111; }
+  .summary-line span:last-child { font-weight: 600; color: var(--text-main); }
   .summary-total {
     display: flex; justify-content: space-between; align-items: center;
-    font-size: 16px; font-weight: 800; color: #111;
+    font-size: 16px; font-weight: 800; color: var(--text-main);
     margin-top: 4px;
   }
 
@@ -608,7 +616,7 @@ const css = `
   }
   .trust-badge {
     display: flex; align-items: center; gap: 8px;
-    font-size: 11px; color: rgba(0,0,0,0.45); font-weight: 500;
+    font-size: 11px; color: var(--text-muted); font-weight: 500;
   }
 
   /* ── Success ── */
@@ -618,7 +626,7 @@ const css = `
     padding: 40px 20px;
   }
   .success-card {
-    background: #fff; border-radius: 20px;
+    background: var(--bg-card); border-radius: 20px;
     padding: 48px 40px; max-width: 480px; width: 100%;
     box-shadow: 0 2px 24px rgba(0,0,0,0.07);
     display: flex; flex-direction: column; align-items: center;
@@ -633,28 +641,28 @@ const css = `
   }
   .success-title {
     font-family: 'Cormorant Garamond', serif;
-    font-size: 28px; font-weight: 700; color: #111; margin-bottom: 10px;
+    font-size: 28px; font-weight: 700; color: var(--text-main); margin-bottom: 10px;
   }
   .success-sub {
-    font-size: 13px; color: rgba(0,0,0,0.5); line-height: 1.6;
+    font-size: 13px; color: var(--text-muted); line-height: 1.6;
     margin-bottom: 28px;
   }
   .success-ref {
-    background: #f5f4f0; border-radius: 10px;
+    background: var(--bg-main); border-radius: 10px;
     padding: 14px 20px; width: 100%;
     display: flex; flex-direction: column; gap: 4px;
     margin-bottom: 16px;
   }
   .success-detail-row {
     display: flex; justify-content: space-between; align-items: center;
-    font-size: 12px; color: rgba(0,0,0,0.5);
-    padding: 8px 0; border-bottom: 1px solid rgba(0,0,0,0.05);
+    font-size: 12px; color: var(--text-muted);
+    padding: 8px 0; border-bottom: 1px solid var(--border-light);
     width: 100%;
   }
-  .success-detail-row strong { font-weight: 700; color: #111; }
+  .success-detail-row strong { font-weight: 700; color: var(--text-main); }
   .back-to-shop {
     margin-top: 28px;
-    background: #111; color: #fff; border: none;
+    background: var(--text-main); color: var(--bg-card); border: none;
     border-radius: 999px; padding: 13px 36px;
     font-size: 12px; font-weight: 700; letter-spacing: 0.1em;
     text-transform: uppercase; cursor: pointer;

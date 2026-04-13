@@ -95,7 +95,7 @@ function ImagePlaceholder({ label }) {
       >
         <defs>
           <pattern id={"stripe-" + label} width="20" height="20" patternTransform="rotate(45)" patternUnits="userSpaceOnUse">
-            <line x1="0" y1="0" x2="0" y2="20" stroke="#999" strokeWidth="1.5" />
+            <line x1="0" y1="0" x2="0" y2="20" stroke="var(--text-muted)" strokeWidth="1.5" />
           </pattern>
         </defs>
         <rect width="100%" height="100%" fill={"url(#stripe-" + label + ")"} />
@@ -129,14 +129,14 @@ function ServiceBlock({ service, index }) {
       <h2 style={{
         margin: "0 0 14px",
         fontSize: "clamp(20px, 2.5vw, 28px)",
-        fontWeight: 600, color: "#1a1a1a",
+        fontWeight: 600, color: "var(--text-main)",
         lineHeight: 1.2, letterSpacing: "-0.02em",
       }}>
         {title}
       </h2>
       <p style={{
         margin: "0 0 22px", fontSize: 13,
-        color: "rgba(0,0,0,0.5)", lineHeight: 1.75, maxWidth: 480,
+        color: "var(--text-muted)", lineHeight: 1.75, maxWidth: 480,
       }}>
         {description}
       </p>
@@ -148,8 +148,8 @@ function ServiceBlock({ service, index }) {
               borderRadius: "50%", background: GOLD, flexShrink: 0,
             }} />
             <div>
-              <span style={{ fontSize: 13, fontWeight: 600, color: "#1a1a1a" }}>{name}</span>
-              <span style={{ fontSize: 12, color: "rgba(0,0,0,0.45)", marginLeft: 6 }}>{detail}</span>
+              <span style={{ fontSize: 13, fontWeight: 600, color: "var(--text-main)" }}>{name}</span>
+              <span style={{ fontSize: 12, color: "var(--text-muted)", marginLeft: 6 }}>{detail}</span>
             </div>
           </div>
         ))}
@@ -181,19 +181,19 @@ function FaqItem({ question }) {
     <div
       onClick={() => setOpen((o) => !o)}
       style={{
-        borderBottom: "0.5px solid rgba(0,0,0,0.1)",
+        borderBottom: "1px solid var(--border-light)",
         padding: "18px 0", cursor: "pointer", userSelect: "none",
       }}
     >
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 16 }}>
-        <span style={{ fontSize: 13, color: "#1a1a1a", fontFamily: "Inter, sans-serif", fontWeight: 400 }}>
+        <span style={{ fontSize: 13, color: "var(--text-main)", fontFamily: "Inter, sans-serif", fontWeight: 400 }}>
           {question}
         </span>
         <span style={{
           width: 22, height: 22, borderRadius: "50%",
-          border: "1px solid rgba(0,0,0,0.15)",
+          border: "1px solid var(--border-strong)",
           display: "flex", alignItems: "center", justifyContent: "center",
-          flexShrink: 0, fontSize: 16, color: "#666",
+          flexShrink: 0, fontSize: 16, color: "var(--text-muted)",
           transition: "transform 0.2s",
           transform: open ? "rotate(45deg)" : "rotate(0deg)",
         }}>
@@ -203,7 +203,7 @@ function FaqItem({ question }) {
       {open && (
         <p style={{
           margin: "10px 0 0", fontSize: 12,
-          color: "rgba(0,0,0,0.5)", lineHeight: 1.7,
+          color: "var(--text-muted)", lineHeight: 1.7,
           fontFamily: "Inter, sans-serif", maxWidth: 520,
         }}>
           Please reach out to us directly and we'll be happy to assist with this.
@@ -228,7 +228,7 @@ export default function Services() {
       <style>{`
         * { box-sizing: border-box; }
         .svc-wrap { flex: 1; max-width: 1060px; width: 100%; margin: 0 auto; padding: 56px 24px 72px; }
-        .svc-divider { border: none; border-top: 0.5px solid rgba(0,0,0,0.1); margin: 56px 0; }
+        .svc-divider { border: none; border-top: 1px solid var(--border-light); margin: 56px 0; }
         .faq-grid { display: grid; grid-template-columns: 1fr 2fr; gap: clamp(32px, 6vw, 80px); align-items: start; max-width: 1060px; margin: 0 auto; }
         @media (max-width: 700px) { .faq-grid { grid-template-columns: 1fr; } }
         @media (max-width: 420px) { .svc-wrap { padding: 36px 16px 48px; } }
@@ -236,7 +236,7 @@ export default function Services() {
 
       {/* ── Service blocks ── */}
       <div className="svc-wrap">
-        <div style={{ marginBottom: 52, borderBottom: "0.5px solid rgba(0,0,0,0.1)", paddingBottom: 28 }}>
+        <div style={{ marginBottom: 52, borderBottom: "1px solid var(--border-light)", paddingBottom: 28 }}>
           <p style={{
             margin: "0 0 8px", fontSize: 10, fontWeight: 700,
             letterSpacing: "0.16em", textTransform: "uppercase",
@@ -246,14 +246,14 @@ export default function Services() {
           </p>
           <h1 style={{
             margin: 0, fontSize: "clamp(26px, 4vw, 42px)",
-            fontWeight: 700, color: "#1a1a1a",
+            fontWeight: 700, color: "var(--text-main)",
             letterSpacing: "-0.025em", lineHeight: 1.15,
           }}>
             Our Services
           </h1>
           <p style={{
             margin: "12px 0 0", fontSize: 14,
-            color: "rgba(0,0,0,0.45)", lineHeight: 1.7,
+            color: "var(--text-muted)", lineHeight: 1.7,
             maxWidth: 520, fontFamily: "Inter, sans-serif",
           }}>
             From mass uniform production to hand-crafted bespoke pieces — everything we make is built with intention and precision.
@@ -270,9 +270,9 @@ export default function Services() {
 
       {/* ── CTA Section ── */}
       <div style={{
-        background: "#fff",
-        borderTop: "0.5px solid rgba(0,0,0,0.08)",
-        borderBottom: "0.5px solid rgba(0,0,0,0.08)",
+        background: "var(--bg-card)",
+        borderTop: "1px solid var(--border-light)",
+        borderBottom: "1px solid var(--border-light)",
         textAlign: "center",
         padding: "64px 24px",
         fontFamily: "Inter, sans-serif",
@@ -286,7 +286,7 @@ export default function Services() {
         <h2 style={{
           margin: "0 0 10px",
           fontSize: "clamp(26px, 4vw, 38px)",
-          fontWeight: 600, color: "#1a1a1a",
+          fontWeight: 600, color: "var(--text-main)",
           letterSpacing: "-0.02em",
           fontFamily: "Georgia, serif", lineHeight: 1.2,
         }}>
@@ -294,21 +294,21 @@ export default function Services() {
         </h2>
         <p style={{
           margin: "0 0 28px", fontSize: 13,
-          color: "rgba(0,0,0,0.45)", lineHeight: 1.6,
+          color: "var(--text-muted)", lineHeight: 1.6,
         }}>
           Every order starts with a conversation. Let us know what you need.
         </p>
         <button
           onClick={() => navigate("/contact")}
           style={{
-            background: "#111", color: "#fff", border: "none",
+            background: "var(--text-main)", color: "var(--bg-card)", border: "none",
             borderRadius: 999, padding: "14px 32px",
             fontSize: 13, fontWeight: 500, cursor: "pointer",
             fontFamily: "Inter, sans-serif", letterSpacing: "0.01em",
             transition: "background 0.18s",
           }}
           onMouseEnter={(e) => (e.currentTarget.style.background = "#333")}
-          onMouseLeave={(e) => (e.currentTarget.style.background = "#111")}
+          onMouseLeave={(e) => (e.currentTarget.style.background = "var(--text-main)")}
         >
           Get in Touch
         </button>
@@ -334,7 +334,7 @@ export default function Services() {
             <h2 style={{
               margin: "0 0 16px",
               fontSize: "clamp(24px, 3vw, 34px)",
-              fontWeight: 600, color: "#1a1a1a",
+              fontWeight: 600, color: "var(--text-main)",
               letterSpacing: "-0.02em", lineHeight: 1.2,
               fontFamily: "Georgia, serif",
             }}>
@@ -342,7 +342,7 @@ export default function Services() {
             </h2>
             <p style={{
               margin: "0 0 20px", fontSize: 12,
-              color: "rgba(0,0,0,0.45)", lineHeight: 1.7,
+              color: "var(--text-muted)", lineHeight: 1.7,
             }}>
               Can't find what you're looking for? Reach out directly and we'll respond within 24 hours.
             </p>
@@ -352,7 +352,7 @@ export default function Services() {
                 background: "none", border: "none", padding: 0,
                 fontSize: 11, fontWeight: 700,
                 letterSpacing: "0.1em", textTransform: "uppercase",
-                color: "#1a1a1a", cursor: "pointer",
+                color: "var(--text-main)", cursor: "pointer",
                 display: "flex", alignItems: "center", gap: 6,
                 fontFamily: "inherit",
               }}

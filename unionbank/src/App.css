@@ -1,1 +1,37 @@
 @import "tailwindcss";
+
+:root {
+  --text-main: #111111;
+  --text-alt: #555555;
+  --text-muted: rgba(0,0,0,0.4);
+  --bg-main: #ffffff;
+  --bg-alt: #f7f7f7;
+  --bg-card: #ffffff;
+  --border-light: rgba(0,0,0,0.08);
+  --border-strong: rgba(0,0,0,0.15);
+  --gold: #C9A84C;
+}
+
+
+
+body {
+  background-color: var(--bg-main);
+  color: var(--text-main);
+  transition: background-color 0.3s ease, color 0.3s ease;
+  overflow-x: hidden;
+  width: 100%;
+}
+
+html {
+  overflow-x: hidden;
+  max-width: 100vw;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+img, video, canvas {
+  max-width: 100%;
+  height: auto;
+}

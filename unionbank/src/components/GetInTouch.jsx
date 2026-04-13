@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+
 const GOLD = "#C9A84C";
 const GOLD_LIGHT = "#f5efe0";
 const GOLD_TEXT_SHADOW = "0 0 8px rgba(201,168,76,0.7)";
@@ -96,10 +97,10 @@ export default function GetInTouch() {
   const inputStyle = (field) => ({
     width: "100%",
     border: "none",
-    borderBottom: `1px solid ${errors[field] ? "#e05252" : "rgba(0,0,0,0.15)"}`,
+    borderBottom: `1px solid ${errors[field] ? "#e05252" : "var(--border-strong)"}`,
     padding: "10px 0",
     fontSize: 13,
-    color: "#111",
+    color: "var(--text-main)",
     background: "transparent",
     outline: "none",
     boxSizing: "border-box",
@@ -154,7 +155,7 @@ export default function GetInTouch() {
         }
 
         .info-card {
-          background: #fff;
+          background: var(--bg-card);
           border: 1px solid rgba(201,168,76,0.18);
           border-radius: 8px;
           padding: 18px 20px;
@@ -177,7 +178,7 @@ export default function GetInTouch() {
           padding: 20px 18px;
           cursor: pointer;
           position: relative;
-          background: #fff;
+          background: var(--bg-card);
           transition: border-color 0.2s, box-shadow 0.2s;
         }
         .measure-card.selected {
@@ -195,7 +196,7 @@ export default function GetInTouch() {
           height: 16px;
           border-radius: 50%;
           border: 1.5px solid rgba(0,0,0,0.25);
-          background: #fff;
+          background: var(--bg-card);
           display: flex;
           align-items: center;
           justify-content: center;
@@ -210,7 +211,7 @@ export default function GetInTouch() {
           width: 6px;
           height: 6px;
           border-radius: 50%;
-          background: #fff;
+          background: var(--bg-card);
         }
 
         /* Toggle */
@@ -229,7 +230,7 @@ export default function GetInTouch() {
           width: 18px;
           height: 18px;
           border-radius: 50%;
-          background: #fff;
+          background: var(--bg-card);
           transition: left 0.25s;
           box-shadow: 0 1px 4px rgba(0,0,0,0.18);
         }
@@ -248,8 +249,8 @@ export default function GetInTouch() {
 
         /* Submit */
         .submit-btn {
-          background: #111;
-          color: #fff;
+          background: var(--text-main);
+          color: var(--bg-card);
           border: none;
           border-radius: 999px;
           padding: 14px 36px;
@@ -266,8 +267,8 @@ export default function GetInTouch() {
 
         /* Footer */
         .footer {
-          background: #fff;
-          border-top: 1px solid rgba(0,0,0,0.07);
+          background: var(--bg-card);
+          border-top: 1px solid var(--border-light);
           padding: 48px 24px 28px;
         }
         .footer-inner {
@@ -294,7 +295,7 @@ export default function GetInTouch() {
         .footer-link {
           display: block;
           font-size: 13px;
-          color: rgba(0,0,0,0.55);
+          color: var(--text-muted);
           margin-bottom: 8px;
           cursor: pointer;
           transition: color 0.18s;
@@ -305,7 +306,7 @@ export default function GetInTouch() {
           max-width: 1100px;
           margin: 32px auto 0;
           padding-top: 20px;
-          border-top: 1px solid rgba(0,0,0,0.06);
+          border-top: 1px solid var(--border-light);
           display: flex;
           justify-content: space-between;
           align-items: center;
@@ -350,10 +351,10 @@ export default function GetInTouch() {
 
           {/* ── Header ── */}
           <div>
-            <h1 style={{ fontSize: 32, fontWeight: 400, margin: "0 0 10px", color: "#111", letterSpacing: "-0.01em" }}>
+            <h1 style={{ fontSize: 32, fontWeight: 400, margin: "0 0 10px", color: "var(--text-main)", letterSpacing: "-0.01em" }}>
               Get in Touch
             </h1>
-            <p style={{ fontSize: 13.5, color: "rgba(0,0,0,0.45)", margin: 0, lineHeight: 1.6 }}>
+            <p style={{ fontSize: 13.5, color: "var(--text-muted)", margin: 0, lineHeight: 1.6 }}>
               Whether you need a full uniform order, a single bespoke piece, or simply want<br />
               to ask a question — we're here.
             </p>
@@ -385,8 +386,8 @@ export default function GetInTouch() {
                   <path d="M5 13l4 4L19 7" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
               </div>
-              <h2 style={{ fontWeight: 400, fontSize: 22, marginBottom: 10, color: "#111" }}>Enquiry Sent!</h2>
-              <p style={{ color: "rgba(0,0,0,0.5)", fontSize: 14, marginBottom: 28 }}>
+              <h2 style={{ fontWeight: 400, fontSize: 22, marginBottom: 10, color: "var(--text-main)" }}>Enquiry Sent!</h2>
+              <p style={{ color: "var(--text-muted)", fontSize: 14, marginBottom: 28 }}>
                 Thank you. We typically respond within 24 hours.
               </p>
               <button
@@ -409,8 +410,8 @@ export default function GetInTouch() {
                   >
                     <div className={`radio-dot${measureMethod === opt.id ? " selected" : ""}`} />
                     <div style={{ marginBottom: 12, marginTop: 2 }}>{opt.icon}</div>
-                    <div style={{ fontSize: 13, fontWeight: 600, color: "#111", marginBottom: 6 }}>{opt.label}</div>
-                    <div style={{ fontSize: 12, color: "rgba(0,0,0,0.45)", lineHeight: 1.55 }}>{opt.desc}</div>
+                    <div style={{ fontSize: 13, fontWeight: 600, color: "var(--text-main)", marginBottom: 6 }}>{opt.label}</div>
+                    <div style={{ fontSize: 12, color: "var(--text-muted)", lineHeight: 1.55 }}>{opt.desc}</div>
                   </div>
                 ))}
               </div>
@@ -420,7 +421,7 @@ export default function GetInTouch() {
               <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
                 <div
                   className="toggle-track"
-                  style={{ background: knowsMeasurements ? GOLD : "rgba(0,0,0,0.15)" }}
+                  style={{ background: knowsMeasurements ? GOLD : "var(--border-strong)" }}
                   onClick={() => setKnowsMeasurements((v) => !v)}
                 >
                   <div
@@ -428,7 +429,7 @@ export default function GetInTouch() {
                     style={{ left: knowsMeasurements ? 21 : 3 }}
                   />
                 </div>
-                <span style={{ fontSize: 13, color: "rgba(0,0,0,0.55)" }}>
+                <span style={{ fontSize: 13, color: "var(--text-muted)" }}>
                   {knowsMeasurements ? "Yes — I'll provide my measurements" : "No — I'll be measured by your team"}
                 </span>
               </div>
@@ -476,7 +477,7 @@ export default function GetInTouch() {
                       ...inputStyle("orderType"),
                       appearance: "none",
                       WebkitAppearance: "none",
-                      color: form.orderType ? "#111" : "rgba(0,0,0,0.35)",
+                      color: form.orderType ? "var(--text-main)" : "rgba(0,0,0,0.35)",
                       cursor: "pointer",
                     }}
                   >
@@ -502,12 +503,12 @@ export default function GetInTouch() {
                     rows={4}
                     style={{
                       width: "100%",
-                      border: "1px solid rgba(0,0,0,0.12)",
+                      border: "1px solid var(--border-strong)",
                       borderRadius: 6,
                       padding: "12px 14px",
                       fontSize: 13,
-                      color: "#111",
-                      background: "#fff",
+                      color: "var(--text-main)",
+                      background: "var(--bg-card)",
                       outline: "none",
                       resize: "vertical",
                       lineHeight: 1.6,

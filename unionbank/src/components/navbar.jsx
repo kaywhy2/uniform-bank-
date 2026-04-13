@@ -56,8 +56,8 @@ export default function Navbar() {
           position: fixed;
           inset: 0 0 auto 0;
           z-index: 300;
-          background: #ffffff;
-          border-bottom: 1px solid rgba(0,0,0,0.09);
+          background: var(--bg-card);
+          border-bottom: 1px solid var(--border-light);
         }
 
         .nb__inner {
@@ -76,7 +76,7 @@ export default function Navbar() {
           font-weight: 400;
           font-size: 17px;
           letter-spacing: 0.01em;
-          color: #111;
+          color: var(--text-main);
           cursor: pointer;
           transition: color 0.2s ease, text-shadow 0.2s ease;
           flex-shrink: 0;
@@ -107,7 +107,7 @@ export default function Navbar() {
           font-weight: 600;
           letter-spacing: 0.13em;
           text-transform: uppercase;
-          color: rgba(0,0,0,0.45);
+          color: var(--text-muted);
           transition: color 0.18s ease, text-shadow 0.18s ease;
           user-select: none;
           white-space: nowrap;
@@ -151,7 +151,7 @@ export default function Navbar() {
           display: flex;
           align-items: center;
           justify-content: center;
-          color: rgba(0,0,0,0.45);
+          color: var(--text-muted);
           transition: color 0.18s ease, text-shadow 0.18s ease;
         }
 
@@ -176,7 +176,7 @@ export default function Navbar() {
           top: 2px;
           right: 2px;
           background: ${GOLD};
-          color: #fff;
+          color: var(--bg-card);
           font-size: 9px;
           font-weight: 700;
           line-height: 1;

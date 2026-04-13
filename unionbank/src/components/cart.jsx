@@ -21,7 +21,7 @@ function TrashIcon() {
 
 function CheckIcon() {
   return (
-    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--bg-card)" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
       <polyline points="20 6 9 17 4 12" />
     </svg>
   );
@@ -79,10 +79,10 @@ export default function Cart() {
   };
 
   return (
-    <div style={{ minHeight: "100vh", background: "#f7f7f7", paddingTop: 60 }}>
+    <div style={{ minHeight: "100vh", background: "var(--bg-main)", paddingTop: 60 }}>
       <style>{`
         * { box-sizing: border-box; }
-        .qty-btn:hover { background: ${GOLD} !important; color: #fff !important; }
+        .qty-btn:hover { background: ${GOLD} !important; color: var(--bg-card) !important; }
         .remove-btn:hover { color: #e53e3e !important; }
         .email-input:focus { border-color: ${GOLD} !important; outline: none; }
 
@@ -95,7 +95,7 @@ export default function Cart() {
           gap: 20px;
         }
         .cart-item {
-          background: #fff;
+          background: var(--bg-card);
           border-radius: 14px;
           padding: 18px 20px;
           display: flex;
@@ -105,7 +105,7 @@ export default function Cart() {
         }
         .cart-item-img {
           width: 72px; height: 72px;
-          border-radius: 10px; background: #ddd;
+          border-radius: 10px; background: var(--border-strong);
           flex-shrink: 0; overflow: hidden;
         }
         .cart-item-info { flex: 1; min-width: 0; }
@@ -140,20 +140,20 @@ export default function Cart() {
 
         {/* ── Header ── */}
         <div>
-          <h2 style={{ fontSize: 22, fontWeight: 700, color: "#111", margin: "0 0 4px" }}>Your Cart</h2>
-          <p style={{ fontSize: 12, color: "rgba(0,0,0,0.4)", margin: 0 }}>
+          <h2 style={{ fontSize: 22, fontWeight: 700, color: "var(--text-main)", margin: "0 0 4px" }}>Your Cart</h2>
+          <p style={{ fontSize: 12, color: "var(--text-muted)", margin: 0 }}>
             {cartItems.length} item{cartItems.length !== 1 ? "s" : ""}
           </p>
         </div>
 
         {/* ── SECTION 1: Items ── */}
         {cartItems.length === 0 ? (
-          <div style={{ background: "#fff", borderRadius: 14, padding: "56px 20px", textAlign: "center" }}>
-            <p style={{ fontSize: 14, color: "rgba(0,0,0,0.4)", margin: 0 }}>Your cart is empty.</p>
+          <div style={{ background: "var(--bg-card)", borderRadius: 14, padding: "56px 20px", textAlign: "center" }}>
+            <p style={{ fontSize: 14, color: "var(--text-muted)", margin: 0 }}>Your cart is empty.</p>
             <button
               onClick={() => navigate("/gallery")}
               style={{
-                marginTop: 18, background: GOLD, color: "#fff", border: "none",
+                marginTop: 18, background: GOLD, color: "var(--bg-card)", border: "none",
                 borderRadius: 999, padding: "10px 28px", fontSize: 11,
                 fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", cursor: "pointer",
               }}
@@ -175,7 +175,7 @@ export default function Cart() {
               }}>
                 {allSelected && <CheckIcon />}
               </div>
-              <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: "rgba(0,0,0,0.5)" }}>
+              <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--text-muted)" }}>
                 Select All Items
               </span>
             </div>
@@ -198,13 +198,13 @@ export default function Cart() {
                   {item.image && <img src={item.image} alt={item.name} style={{ width: "100%", height: "100%", objectFit: "cover" }} />}
                 </div>
                 <div className="cart-item-info">
-                  <p style={{ fontSize: 13, fontWeight: 700, color: "#111", margin: "0 0 3px", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                  <p style={{ fontSize: 13, fontWeight: 700, color: "var(--text-main)", margin: "0 0 3px", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
                     {item.name}
                   </p>
                   <p style={{ fontSize: 10, fontWeight: 600, letterSpacing: "0.08em", color: "rgba(0,0,0,0.35)", margin: "0 0 4px", textTransform: "uppercase" }}>
                     {item.category}
                   </p>
-                  <p style={{ fontSize: 11, color: "rgba(0,0,0,0.4)", margin: 0 }}>
+                  <p style={{ fontSize: 11, color: "var(--text-muted)", margin: 0 }}>
                     {formatNaira(item.unitPrice)} / unit
                   </p>
                   <button className="remove-btn" onClick={() => removeItem(item.id)}
@@ -213,13 +213,13 @@ export default function Cart() {
                   </button>
                 </div>
                 <div className="cart-item-right">
-                  <p style={{ fontSize: 14, fontWeight: 700, color: "#111", margin: 0 }}>{formatNaira(item.price)}</p>
-                  <div style={{ display: "flex", alignItems: "center", border: "1px solid rgba(0,0,0,0.12)", borderRadius: 8, overflow: "hidden" }}>
+                  <p style={{ fontSize: 14, fontWeight: 700, color: "var(--text-main)", margin: 0 }}>{formatNaira(item.price)}</p>
+                  <div style={{ display: "flex", alignItems: "center", border: "1px solid var(--border-strong)", borderRadius: 8, overflow: "hidden" }}>
                     <button className="qty-btn" onClick={() => changeQty(item.id, -1)}
-                      style={{ width: 30, height: 30, background: "#fff", border: "none", cursor: "pointer", fontSize: 16, color: "#555", display: "flex", alignItems: "center", justifyContent: "center", transition: "background 0.15s, color 0.15s" }}>−</button>
-                    <span style={{ width: 30, textAlign: "center", fontSize: 13, fontWeight: 600, color: "#111" }}>{item.qty}</span>
+                      style={{ width: 30, height: 30, background: "var(--bg-card)", border: "none", cursor: "pointer", fontSize: 16, color: "#555", display: "flex", alignItems: "center", justifyContent: "center", transition: "background 0.15s, color 0.15s" }}>−</button>
+                    <span style={{ width: 30, textAlign: "center", fontSize: 13, fontWeight: 600, color: "var(--text-main)" }}>{item.qty}</span>
                     <button className="qty-btn" onClick={() => changeQty(item.id, 1)}
-                      style={{ width: 30, height: 30, background: "#fff", border: "none", cursor: "pointer", fontSize: 16, color: "#555", display: "flex", alignItems: "center", justifyContent: "center", transition: "background 0.15s, color 0.15s" }}>+</button>
+                      style={{ width: 30, height: 30, background: "var(--bg-card)", border: "none", cursor: "pointer", fontSize: 16, color: "#555", display: "flex", alignItems: "center", justifyContent: "center", transition: "background 0.15s, color 0.15s" }}>+</button>
                   </div>
                 </div>
               </div>
@@ -229,27 +229,27 @@ export default function Cart() {
 
         {/* ── SECTION 2: Fulfillment ── */}
         {cartItems.length > 0 && (
-          <div style={{ background: "#fff", borderRadius: 16, padding: "22px 20px" }}>
+          <div style={{ background: "var(--bg-card)", borderRadius: 16, padding: "22px 20px" }}>
             <p style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: "rgba(0,0,0,0.35)", margin: "0 0 14px" }}>
               Fulfilment Method
             </p>
             <div className="fulfillment-grid">
               <div onClick={() => setFulfillment("home")}
-                style={{ border: `1.5px solid ${fulfillment === "home" ? GOLD : "rgba(0,0,0,0.1)"}`, borderRadius: 10, padding: "14px", cursor: "pointer", background: fulfillment === "home" ? "rgba(201,168,76,0.04)" : "#fff", transition: "border 0.18s, background 0.18s" }}>
+                style={{ border: `1.5px solid ${fulfillment === "home" ? GOLD : "var(--border-strong)"}`, borderRadius: 10, padding: "14px", cursor: "pointer", background: fulfillment === "home" ? "rgba(201,168,76,0.04)" : "var(--bg-card)", transition: "border 0.18s, background 0.18s" }}>
                 <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 6 }}>
                   <div style={{ width: 16, height: 16, borderRadius: "50%", border: `2px solid ${fulfillment === "home" ? GOLD : "rgba(0,0,0,0.2)"}`, background: fulfillment === "home" ? GOLD : "transparent", flexShrink: 0, transition: "all 0.18s" }} />
-                  <span style={{ fontSize: 13, fontWeight: 700, color: "#111" }}>Home Delivery</span>
+                  <span style={{ fontSize: 13, fontWeight: 700, color: "var(--text-main)" }}>Home Delivery</span>
                 </div>
-                <p style={{ fontSize: 11, color: "rgba(0,0,0,0.4)", margin: "0 0 8px", lineHeight: 1.5 }}>We ship directly to your address across Nigeria.</p>
+                <p style={{ fontSize: 11, color: "var(--text-muted)", margin: "0 0 8px", lineHeight: 1.5 }}>We ship directly to your address across Nigeria.</p>
                 <span style={{ fontSize: 11, fontWeight: 700, color: GOLD }}>₦5,000</span>
               </div>
               <div onClick={() => setFulfillment("pickup")}
-                style={{ border: `1.5px solid ${fulfillment === "pickup" ? GOLD : "rgba(0,0,0,0.1)"}`, borderRadius: 10, padding: "14px", cursor: "pointer", background: fulfillment === "pickup" ? "rgba(201,168,76,0.04)" : "#fff", transition: "border 0.18s, background 0.18s" }}>
+                style={{ border: `1.5px solid ${fulfillment === "pickup" ? GOLD : "var(--border-strong)"}`, borderRadius: 10, padding: "14px", cursor: "pointer", background: fulfillment === "pickup" ? "rgba(201,168,76,0.04)" : "var(--bg-card)", transition: "border 0.18s, background 0.18s" }}>
                 <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 6 }}>
                   <div style={{ width: 16, height: 16, borderRadius: "50%", border: `2px solid ${fulfillment === "pickup" ? GOLD : "rgba(0,0,0,0.2)"}`, background: fulfillment === "pickup" ? GOLD : "transparent", flexShrink: 0, transition: "all 0.18s" }} />
-                  <span style={{ fontSize: 13, fontWeight: 700, color: "#111" }}>In-Person Pickup</span>
+                  <span style={{ fontSize: 13, fontWeight: 700, color: "var(--text-main)" }}>In-Person Pickup</span>
                 </div>
-                <p style={{ fontSize: 11, color: "rgba(0,0,0,0.4)", margin: "0 0 8px", lineHeight: 1.5 }}>Collect from our Abuja showroom at your convenience.</p>
+                <p style={{ fontSize: 11, color: "var(--text-muted)", margin: "0 0 8px", lineHeight: 1.5 }}>Collect from our Abuja showroom at your convenience.</p>
                 <span style={{ fontSize: 11, fontWeight: 700, color: "#2ecc71", background: "rgba(46,204,113,0.1)", padding: "2px 10px", borderRadius: 999 }}>Free</span>
               </div>
             </div>
@@ -258,23 +258,23 @@ export default function Cart() {
 
         {/* ── SECTION 3: Totals + Checkout ── */}
         {cartItems.length > 0 && (
-          <div style={{ background: "#fff", borderRadius: 16, padding: "22px 20px" }}>
+          <div style={{ background: "var(--bg-card)", borderRadius: 16, padding: "22px 20px" }}>
             {/* Summary */}
             <div style={{ display: "flex", flexDirection: "column", gap: 10, marginBottom: 20 }}>
               <div style={{ display: "flex", justifyContent: "space-between" }}>
-                <span style={{ fontSize: 12, color: "rgba(0,0,0,0.45)" }}>Selected items</span>
-                <span style={{ fontSize: 12, color: "#111", fontWeight: 600 }}>{selectedItems.length} item{selectedItems.length !== 1 ? "s" : ""}</span>
+                <span style={{ fontSize: 12, color: "var(--text-muted)" }}>Selected items</span>
+                <span style={{ fontSize: 12, color: "var(--text-main)", fontWeight: 600 }}>{selectedItems.length} item{selectedItems.length !== 1 ? "s" : ""}</span>
               </div>
               <div style={{ display: "flex", justifyContent: "space-between" }}>
-                <span style={{ fontSize: 12, color: "rgba(0,0,0,0.45)" }}>Subtotal</span>
-                <span style={{ fontSize: 12, color: "#111", fontWeight: 600 }}>{formatNaira(subtotal)}</span>
+                <span style={{ fontSize: 12, color: "var(--text-muted)" }}>Subtotal</span>
+                <span style={{ fontSize: 12, color: "var(--text-main)", fontWeight: 600 }}>{formatNaira(subtotal)}</span>
               </div>
               <div style={{ display: "flex", justifyContent: "space-between" }}>
-                <span style={{ fontSize: 12, color: "rgba(0,0,0,0.45)" }}>Fulfilment</span>
-                <span style={{ fontSize: 12, color: "#111", fontWeight: 600 }}>{formatNaira(fulfillmentCost)}</span>
+                <span style={{ fontSize: 12, color: "var(--text-muted)" }}>Fulfilment</span>
+                <span style={{ fontSize: 12, color: "var(--text-main)", fontWeight: 600 }}>{formatNaira(fulfillmentCost)}</span>
               </div>
-              <div style={{ display: "flex", justifyContent: "space-between", paddingTop: 12, borderTop: "1px solid rgba(0,0,0,0.07)" }}>
-                <span style={{ fontSize: 15, fontWeight: 700, color: "#111" }}>Total</span>
+              <div style={{ display: "flex", justifyContent: "space-between", paddingTop: 12, borderTop: "1px solid var(--border-light)" }}>
+                <span style={{ fontSize: 15, fontWeight: 700, color: "var(--text-main)" }}>Total</span>
                 <span style={{ fontSize: 17, fontWeight: 800, color: GOLD }}>{formatNaira(total)}</span>
               </div>
             </div>
@@ -285,8 +285,8 @@ export default function Cart() {
               disabled={selectedItems.length === 0}
               style={{
                 width: "100%",
-                background: "#111",
-                color: "#fff",
+                background: "var(--text-main)",
+                color: "var(--bg-card)",
                 border: "none",
                 borderRadius: 10,
                 padding: "15px",
