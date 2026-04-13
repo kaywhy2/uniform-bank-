@@ -532,52 +532,6 @@ export default function GetInTouch() {
           )}
         </div>
 
-        {/* ── Footer ── */}
-        <footer className="footer">
-          <div className="footer-inner">
-            {/* Brand */}
-            <div>
-              <div style={{ fontFamily: "Pacifico, cursive", fontSize: 16, color: "#111", marginBottom: 12 }}>
-                Uniform Bank
-              </div>
-              <p style={{ fontSize: 12.5, color: "rgba(0,0,0,0.45)", lineHeight: 1.7, margin: 0, maxWidth: 220 }}>
-                Premium uniforms and bespoke garments crafted for institutions, teams, and individuals who demand distinction.
-              </p>
-            </div>
-
-            {/* Services */}
-            <div>
-              <div className="footer-col-title">Services</div>
-              {["School Uniforms", "Sports Wear", "Corporate Apparel", "Security Uniforms", "Bespoke Tailoring"].map((s) => (
-                <span key={s} className="footer-link">{s}</span>
-              ))}
-            </div>
-
-            {/* Company */}
-            <div>
-              <div className="footer-col-title">Company</div>
-              <span className="footer-link" onClick={() => navigate("/about")}>About Us</span>
-              <span className="footer-link" onClick={() => navigate("/gallery")}>Gallery</span>
-              <span className="footer-link" onClick={() => navigate("/contact")}>Get in Touch</span>
-            </div>
-
-            {/* Reach Us */}
-            <div>
-              <div className="footer-col-title">Reach Us</div>
-              <span className="footer-link">inquiry@uniformbank.com</span>
-              <span className="footer-link">+234 800 000 0000</span>
-              <span className="footer-link">Wuse II, Abuja</span>
-            </div>
-          </div>
-
-          <div className="footer-bottom">
-            <span style={{ fontSize: 11, color: "rgba(0,0,0,0.3)" }}>© 2026 Uniform Bank. All rights reserved.</span>
-            <div style={{ display: "flex", gap: 20 }}>
-              <span style={{ fontSize: 11, color: "rgba(0,0,0,0.35)", cursor: "pointer" }}>Privacy Policy</span>
-              <span style={{ fontSize: 11, color: "rgba(0,0,0,0.35)", cursor: "pointer" }}>Terms of Use</span>
-            </div>
-          </div>
-        </footer>
       </div>
     </>
   );

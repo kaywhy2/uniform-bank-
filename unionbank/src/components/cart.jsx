@@ -1,7 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useCart } from "./Cartcontext";
 import { useState } from "react";
-import { usePaystackPayment } from "react-paystack";
 
 const GOLD = "#C9A84C";
 
@@ -37,50 +36,12 @@ function LockIcon() {
   );
 }
 
-// ── Separate component so usePaystackPayment gets a stable config ──
-function CheckoutButton({ config, selectedItems, email, onSuccess, onClose }) {
-  const initializePayment = usePaystackPayment(config);
-
-  const handleClick = () => {
-    if (!email.trim()) {
-      alert("Please enter your email address to continue.");
-      return;
-    }
-    if (selectedItems.length === 0) return;
-    initializePayment({ onSuccess, onClose });
-  };
-
-  return (
-    <button
-      onClick={handleClick}
-      disabled={selectedItems.length === 0}
-      style={{
-        width: "100%",
-        background: "#111",
-        color: "#fff",
-        border: "none",
-        borderRadius: 10,
-        padding: "15px",
-        fontSize: 13,
-        fontWeight: 700,
-        letterSpacing: "0.06em",
-        cursor: selectedItems.length === 0 ? "not-allowed" : "pointer",
-        opacity: selectedItems.length === 0 ? 0.4 : 1,
-        transition: "opacity 0.18s",
-        marginBottom: 12,
-      }}
-    >
-      Proceed to Checkout
-    </button>
-  );
-}
+// Checkout is now handled in CheckoutPage.jsx
 
 export default function Cart() {
   const navigate = useNavigate();
   const { cartItems, setCartItems } = useCart();
   const [fulfillment, setFulfillment] = useState("home");
-  const [email, setEmail] = useState("");
-  const [emailError, setEmailError] = useState("");
 
   const allSelected = cartItems.length > 0 && cartItems.every((i) => i.selected);
 
@@ -111,46 +72,10 @@ export default function Cart() {
   const fulfillmentCost = fulfillment === "home" ? 5000 : 0;
   const total = subtotal + fulfillmentCost;
 
-  // ── Paystack config ──
-  const paystackConfig = {
-    reference: `UB_${new Date().getTime()}`,
-    email,
-    amount: total * 100, // ₦ → kobo
-    publicKey: "pk_test_6aa698310050f904eadaa71120040b80f75db13c", 
-    currency: "NGN",
-    metadata: {
-      custom_fields: [
-        {
-          display_name: "Fulfilment Method",
-          variable_name: "fulfilment_method",
-          value: fulfillment === "home" ? "Home Delivery" : "In-Person Pickup",
-        },
-        {
-          display_name: "Items",
-          variable_name: "items",
-          value: selectedItems.map((i) => `${i.name} x${i.qty}`).join(", "),
-        },
-      ],
-    },
-  };
-
-  const onPaymentSuccess = (reference) => {
-    console.log(" Payment successful:", reference);
-    // Remove paid items from cart
-    setCartItems((prev) => prev.filter((i) => !i.selected));
-    // Navigate to a success page — create /order-success route or use alert:
-    navigate("/order-success", {
-      state: { reference: reference.reference, total, fulfillment },
-    });
-  };
-
-  const onPaymentClose = () => {
-    console.log("Payment dialog closed.");
-  };
-
-  const validateEmail = (val) => {
-    const ok = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val);
-    setEmailError(ok || val === "" ? "" : "Enter a valid email address");
+  const proceedToCheckout = () => {
+    // Store fulfillment method for the checkout page
+    sessionStorage.setItem("ub_fulfillment", fulfillment);
+    navigate("/checkout");
   };
 
   return (
@@ -354,44 +279,28 @@ export default function Cart() {
               </div>
             </div>
 
-            {/* ── Email input ── */}
-            <div style={{ marginBottom: 14 }}>
-              <label style={{ fontSize: 11, fontWeight: 700, color: "rgba(0,0,0,0.5)", letterSpacing: "0.08em", textTransform: "uppercase", display: "block", marginBottom: 6 }}>
-                Email Address
-              </label>
-              <input
-                className="email-input"
-                type="email"
-                placeholder="you@example.com"
-                value={email}
-                onChange={(e) => {
-                  setEmail(e.target.value);
-                  validateEmail(e.target.value);
-                }}
-                style={{
-                  width: "100%",
-                  padding: "11px 14px",
-                  border: `1.5px solid ${emailError ? "#e53e3e" : "rgba(0,0,0,0.15)"}`,
-                  borderRadius: 10,
-                  fontSize: 13,
-                  color: "#111",
-                  background: "#fff",
-                  transition: "border-color 0.18s",
-                }}
-              />
-              {emailError && (
-                <p style={{ fontSize: 11, color: "#e53e3e", margin: "5px 0 0" }}>{emailError}</p>
-              )}
-            </div>
-
-            {/* ── Paystack Checkout Button ── */}
-            <CheckoutButton
-              config={paystackConfig}
-              selectedItems={selectedItems}
-              email={email}
-              onSuccess={onPaymentSuccess}
-              onClose={onPaymentClose}
-            />
+            {/* ── Proceed to Checkout Button ── */}
+            <button
+              onClick={proceedToCheckout}
+              disabled={selectedItems.length === 0}
+              style={{
+                width: "100%",
+                background: "#111",
+                color: "#fff",
+                border: "none",
+                borderRadius: 10,
+                padding: "15px",
+                fontSize: 13,
+                fontWeight: 700,
+                letterSpacing: "0.06em",
+                cursor: selectedItems.length === 0 ? "not-allowed" : "pointer",
+                opacity: selectedItems.length === 0 ? 0.4 : 1,
+                transition: "opacity 0.18s",
+                marginBottom: 12,
+              }}
+            >
+              Proceed to Checkout
+            </button>
 
             <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 6, color: "rgba(0,0,0,0.35)" }}>
               <LockIcon />
@@ -401,51 +310,6 @@ export default function Cart() {
         )}
       </div>
 
-      {/* Footer */}
-      <footer style={{ background: "#fff", borderTop: "1px solid rgba(0,0,0,0.07)", marginTop: 20 }}>
-        <div style={{ maxWidth: 1200, margin: "0 auto", padding: "48px 20px 28px" }}>
-          <div className="cart-footer-grid">
-            <div>
-              <h3 style={{ fontSize: 17, fontWeight: 700, color: "#111", margin: "0 0 12px" }}>Uniform Bank</h3>
-              <p style={{ fontSize: 12, color: "rgba(0,0,0,0.4)", lineHeight: 1.7, margin: 0, maxWidth: 220 }}>
-                Premium uniforms and bespoke garments crafted for institutions, teams, and individuals who demand distinction.
-              </p>
-            </div>
-            <div>
-              <p style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: "rgba(0,0,0,0.35)", margin: "0 0 14px" }}>Services</p>
-              {["School Uniforms", "Sports Wear", "Corporate Apparel", "Security Uniforms", "Bespoke Tailoring"].map((item) => (
-                <p key={item} style={{ fontSize: 12, color: "rgba(0,0,0,0.55)", margin: "0 0 9px", cursor: "pointer" }}
-                  onMouseEnter={(e) => (e.currentTarget.style.color = GOLD)}
-                  onMouseLeave={(e) => (e.currentTarget.style.color = "rgba(0,0,0,0.55)")}>{item}</p>
-              ))}
-            </div>
-            <div>
-              <p style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: "rgba(0,0,0,0.35)", margin: "0 0 14px" }}>Company</p>
-              {["About Us", "Why Us", "Gallery", "Contact"].map((item) => (
-                <p key={item} style={{ fontSize: 12, color: "rgba(0,0,0,0.55)", margin: "0 0 9px", cursor: "pointer" }}
-                  onMouseEnter={(e) => (e.currentTarget.style.color = GOLD)}
-                  onMouseLeave={(e) => (e.currentTarget.style.color = "rgba(0,0,0,0.55)")}>{item}</p>
-              ))}
-            </div>
-            <div>
-              <p style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: "rgba(0,0,0,0.35)", margin: "0 0 14px" }}>Get In Touch</p>
-              {["inquiry@uniformbank.com", "+234 800 000 0000", "Abuja, Nigeria"].map((item) => (
-                <p key={item} style={{ fontSize: 12, color: "rgba(0,0,0,0.55)", margin: "0 0 9px" }}>{item}</p>
-              ))}
-            </div>
-          </div>
-          <div style={{ borderTop: "1px solid rgba(0,0,0,0.07)", paddingTop: 18, display: "flex", flexWrap: "wrap", justifyContent: "space-between", alignItems: "center", gap: 10 }}>
-            <p style={{ fontSize: 11, color: "rgba(0,0,0,0.3)", margin: 0 }}>© 2026 Uniform Bank. All rights reserved.</p>
-            <div style={{ display: "flex", gap: 20 }}>
-              {["Privacy Policy", "Terms of Use"].map((item) => (
-                <p key={item} style={{ fontSize: 11, color: "rgba(0,0,0,0.35)", margin: 0, cursor: "pointer" }}
-                  onMouseEnter={(e) => (e.currentTarget.style.color = GOLD)}
-                  onMouseLeave={(e) => (e.currentTarget.style.color = "rgba(0,0,0,0.35)")}>{item}</p>
-              ))}
-            </div>
-          </div>
-        </div>
-      </footer>
     </div>
   );
 }

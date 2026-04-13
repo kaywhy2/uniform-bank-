@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useCart } from "./Cartcontext";
 
 const GOLD = "#C9A84C";
@@ -37,22 +37,13 @@ const ICON_ITEMS = [
 ];
 
 export default function Navbar() {
-  const [active, setActive]   = useState(null);
   const [hovered, setHovered] = useState(null);
   const navigate = useNavigate();
+  const location = useLocation();
   const { cartItems } = useCart();
   const cartCount = cartItems.reduce((sum, item) => sum + item.qty, 0);
 
-  useEffect(() => {
-    const link = document.createElement("link");
-    link.rel  = "stylesheet";
-    link.href = "https://fonts.googleapis.com/css2?family=Pacifico&display=swap";
-    document.head.appendChild(link);
-    return () => document.head.removeChild(link);
-  }, []);
-
   const handleClick = (item) => {
-    setActive(item.label);
     if (item.path) navigate(item.path);
   };
 
@@ -232,7 +223,7 @@ export default function Navbar() {
           {/* Nav links */}
           <ul className="nb__links">
             {NAV_ITEMS.map((item) => {
-              const isActive  = active  === item.label;
+              const isActive  = location.pathname === item.path;
               const isHovered = hovered === item.label;
               const cls = [
                 "nb__item",
@@ -259,7 +250,7 @@ export default function Navbar() {
           {/* Icon nav items — Profile + Cart */}
           <div className="nb__icons" aria-label="Account and cart">
             {ICON_ITEMS.map(({ label, path, Icon }) => {
-              const isActive  = active  === label;
+              const isActive  = location.pathname === path;
               const isHovered = hovered === label;
               const cls = [
                 "nb__icon-item",
@@ -271,7 +262,7 @@ export default function Navbar() {
                 <div
                   key={label}
                   className={cls}
-                  onClick={() => { setActive(label); navigate(path); }}
+                  onClick={() => navigate(path)}
                   onMouseEnter={() => setHovered(label)}
                   onMouseLeave={() => setHovered(null)}
                   role="button"

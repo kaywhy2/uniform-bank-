@@ -599,45 +599,6 @@ export default function Profile() {
         </div>
       </div>
 
-      {/* ── FOOTER ── */}
-      <footer style={{ background: "#fff", borderTop: "1px solid rgba(0,0,0,0.07)", marginTop: 20 }}>
-        <div style={{ maxWidth: 1100, margin: "0 auto", padding: "48px 20px 28px" }}>
-          <div className="footer-grid">
-            <div>
-              <h3 style={{ fontSize: 17, fontWeight: 700, color: "#111", margin: "0 0 12px" }}>Uniform Bank</h3>
-              <p style={{ fontSize: 12, color: "rgba(0,0,0,0.4)", lineHeight: 1.7, margin: 0, maxWidth: 220 }}>
-                Premium uniforms and bespoke garments crafted for institutions, teams, and individuals who demand distinction.
-              </p>
-            </div>
-            <div>
-              <p style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: "rgba(0,0,0,0.35)", margin: "0 0 14px" }}>Services</p>
-              {footerServices.map((item) => (
-                <p key={item} style={{ fontSize: 12, color: "rgba(0,0,0,0.55)", margin: "0 0 9px", cursor: "pointer" }} onMouseEnter={(e) => (e.currentTarget.style.color = GOLD)} onMouseLeave={(e) => (e.currentTarget.style.color = "rgba(0,0,0,0.55)")}>{item}</p>
-              ))}
-            </div>
-            <div>
-              <p style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: "rgba(0,0,0,0.35)", margin: "0 0 14px" }}>Company</p>
-              {footerCompany.map((item) => (
-                <p key={item} style={{ fontSize: 12, color: "rgba(0,0,0,0.55)", margin: "0 0 9px", cursor: "pointer" }} onMouseEnter={(e) => (e.currentTarget.style.color = GOLD)} onMouseLeave={(e) => (e.currentTarget.style.color = "rgba(0,0,0,0.55)")}>{item}</p>
-              ))}
-            </div>
-            <div>
-              <p style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: "rgba(0,0,0,0.35)", margin: "0 0 14px" }}>Get In Touch</p>
-              {footerContact.map((item) => (
-                <p key={item} style={{ fontSize: 12, color: "rgba(0,0,0,0.55)", margin: "0 0 9px" }}>{item}</p>
-              ))}
-            </div>
-          </div>
-          <div style={{ borderTop: "1px solid rgba(0,0,0,0.07)", paddingTop: 18, display: "flex", flexWrap: "wrap", justifyContent: "space-between", alignItems: "center", gap: 10 }}>
-            <p style={{ fontSize: 11, color: "rgba(0,0,0,0.3)", margin: 0 }}>© 2026 Uniform Bank. All rights reserved.</p>
-            <div style={{ display: "flex", gap: 20 }}>
-              {["Privacy Policy", "Terms of Use"].map((item) => (
-                <p key={item} style={{ fontSize: 11, color: "rgba(0,0,0,0.35)", margin: 0, cursor: "pointer" }} onMouseEnter={(e) => (e.currentTarget.style.color = GOLD)} onMouseLeave={(e) => (e.currentTarget.style.color = "rgba(0,0,0,0.35)")}>{item}</p>
-              ))}
-            </div>
-          </div>
-        </div>
-      </footer>
     </div>
   );
 }

@@ -1,29 +1,37 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import './App.css'
-import BrewNavbar from './components/navbar'
+import Navbar from './components/Navbar'
 import Hero from './components/Hero'
 import Gallery from './components/Gallery'
-import Cart from './components/cart'
+import Cart from './components/Cart'
 import GetInTouch from './components/GetInTouch'
-import Profile from './components/profile'
-import Service from './components/service'
-import OrderSuccess from './components/OrderSuccess'   // ← add this
+import Profile from './components/Profile'
+import Service from './components/Service'
+import OrderSuccess from './components/OrderSuccess'
+import CheckoutPage from './components/CheckoutPage'
+import Footer from './components/Footer'
 import { CartProvider } from './components/Cartcontext'
 
 function App() {
   return (
     <CartProvider>
       <BrowserRouter>
-        <BrewNavbar />
-        <Routes>
-          <Route path="/"              element={<Hero />} />
-          <Route path="/gallery"       element={<Gallery />} />
-          <Route path="/services"      element={<Service />} />
-          <Route path="/cart"          element={<Cart />} />
-          <Route path="/contact"       element={<GetInTouch />} />
-          <Route path="/profile"       element={<Profile />} />
-          <Route path="/order-success" element={<OrderSuccess />} />  {/* ← add this */}
-        </Routes>
+        <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+          <Navbar />
+          <div style={{ flex: 1 }}>
+            <Routes>
+              <Route path="/"              element={<Hero />} />
+              <Route path="/gallery"       element={<Gallery />} />
+              <Route path="/services"      element={<Service />} />
+              <Route path="/cart"          element={<Cart />} />
+              <Route path="/checkout"      element={<CheckoutPage />} />
+              <Route path="/contact"       element={<GetInTouch />} />
+              <Route path="/profile"       element={<Profile />} />
+              <Route path="/order-success" element={<OrderSuccess />} />
+            </Routes>
+          </div>
+          <Footer />
+        </div>
       </BrowserRouter>
     </CartProvider>
   )
